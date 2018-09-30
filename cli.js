@@ -36,7 +36,7 @@ let consoleCommand = (answer) => {
       console.log(getAvailableCommands());
       break;
     case ``:
-      console.log(`Привет пользователь! Эта программа будет запускать сервер «Ozerco-city adventures». Автор: anticipant.`);
+      console.log(`Привет пользователь! Эта программа будет запускать сервер «${packageJSON.name}». Автор: anticipant.`);
       break;
 
     default:
