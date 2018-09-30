@@ -1,0 +1,19 @@
+{
+  "name": "ozerco-city-adventures",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anticipant/172395-keksobooking-1.git"
+  },
+  "author": "anticipant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anticipant/172395-keksobooking-1/issues"
+  },
+  "homepage": "https://github.com/anticipant/172395-keksobooking-1#readme"
+}
