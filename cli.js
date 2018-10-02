@@ -29,12 +29,12 @@ let cliInterface = {
 if (process.argv.length === 2) {
   console.log(`Привет пользователь! Эта программа будет запускать сервер «${packageJSON.name}». Автор: ${packageJSON.author}.`);
 } else {
-  process.argv.forEach((val, index) => {
+  process.argv.forEach((it, index) => {
     if (index > 1) {
-      if (cliInterface[`${val}`]) {
-        cliInterface[`${val}`].action();
+      if (cliInterface[it]) {
+        cliInterface[it].action();
       } else {
-        console.error(`Неизвестная команда {${val}}. 
+        console.error(`Неизвестная команда {${it}}. 
 Чтобы прочитать правила использования приложения, наберите "--help"`);
         process.exit(1);
       }
