@@ -1,1 +1,3 @@
-require('./cli');
+'use strict';
+
+require(`./cli`);

@@ -1,27 +1,35 @@
-const packageJSON = require('./package.json');
+'use strict';
+
+const packageJSON = require(`./package.json`);
 const getAvailableCommands = () => {
   let commands = [];
 
-  for(commandKey in cliInterface) {
-    const command = {
-      name: commandKey,
-      description: cliInterface[commandKey].description,
-    };
-    commands.push(command);
+  for (let commandKey in cliInterface) {
+    if (cliInterface.hasOwnProperty(commandKey)) {
+      const command = {
+        name: commandKey,
+        description: cliInterface[commandKey].description,
+      };
+      commands.push(command);
+    }
   }
   return `Доступные команды:
   ${commands.map((it) => {
-    return `${it.name}${` `.repeat(15 - it.name.length)} — ${it.description}`
+    return `${it.name}${` `.repeat(15 - it.name.length)} — ${it.description}`;
   }).join(`
-  `)}`
+  `)}`;
 };
 let cliInterface = {
   '--version': {
-    action: () => {console.log(`v${packageJSON.version}`)},
+    action: () => {
+      console.log(`v${packageJSON.version}`);
+    },
     description: `печатает версию приложения`,
   },
   '--help': {
-    action: () => {console.log(getAvailableCommands())},
+    action: () => {
+      console.log(getAvailableCommands());
+    },
     description: `выводит возможные команды`,
   },
 };
