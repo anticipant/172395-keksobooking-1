@@ -1,10 +1,11 @@
 {
   "name": "ozerco-city-adventures",
   "version": "1.0.0",
-  "description": "",
+  "description": "* Студент: [Дмитрий Шахович](https://up.htmlacademy.ru/nodejs/2/user/172395). * Наставник: [Владимир Коршунов](https://htmlacademy.ru/profile/bekobou).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:lint": "eslint .",
+    "test": "npm run test:lint"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/anticipant/172395-keksobooking-1/issues"
   },
-  "homepage": "https://github.com/anticipant/172395-keksobooking-1#readme"
+  "homepage": "https://github.com/anticipant/172395-keksobooking-1#readme",
+  "devDependencies": {
+    "eslint": "^5.6.1",
+    "eslint-config-htmlacademy": "^0.5.2"
+  }
 }
