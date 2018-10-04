@@ -4,6 +4,7 @@
   "description": "* Студент: [Дмитрий Шахович](https://up.htmlacademy.ru/nodejs/2/user/172395). * Наставник: [Владимир Коршунов](https://htmlacademy.ru/profile/bekobou).",
   "main": "index.js",
   "scripts": {
+    "fix-error": "eslint . --fix",
     "test:lint": "eslint .",
     "test": "npm run test:lint"
   },

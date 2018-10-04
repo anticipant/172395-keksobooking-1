@@ -1,6 +1,15 @@
 'use strict';
 
-const packageJSON = require(`./package.json`);
+const cliInterface =  require(`./src/cli-interface`);
+// const help =  require(`./src/help`);
+// const version =  require(`./src/version`);
+// const cliInterface = {
+//   help,
+//   version,
+// };
+
+const packageInfo = require(`./package.json`);
+
 const getAvailableCommands = () => {
   let commands = [];
 
@@ -19,33 +28,30 @@ const getAvailableCommands = () => {
   }).join(`
   `)}`;
 };
-let cliInterface = {
-  '--version': {
-    action: () => {
-      console.log(`v${packageJSON.version}`);
-    },
-    description: `печатает версию приложения`,
-  },
-  '--help': {
-    action: () => {
-      console.log(getAvailableCommands());
-    },
-    description: `выводит возможные команды`,
-  },
+
+// функция которая берет название команды как параметр.
+// ищет ее с массиве it.name, если находит выполняет
+//
+let executeCommand = (commandName) => {
+  let command = commandName.slice(2);
+
+  console.log(cliInterface);
+  console.log(cliInterface[command].execute());
 };
 
 if (process.argv.length === 2) {
-  console.log(`Привет пользователь! Эта программа будет запускать сервер «${packageJSON.name}». Автор: ${packageJSON.author}.`);
+  console.log(`Привет пользователь! Эта программа будет запускать сервер «${packageInfo.name}». Автор: ${packageInfo.author}.`);
 } else {
   process.argv.forEach((it, index) => {
     if (index > 1) {
-      if (cliInterface[it]) {
-        cliInterface[it].action();
-      } else {
-        console.error(`Неизвестная команда {${it}}. 
-Чтобы прочитать правила использования приложения, наберите "--help"`);
-        process.exit(1);
-      }
+      executeCommand(it);
+//       if (cliInterface[it]) {
+//         cliInterface[it].action();
+//       } else {
+//         console.error(`Неизвестная команда {${it}}.
+// Чтобы прочитать правила использования приложения, наберите "--help"`);
+//         process.exit(1);
+//       }
     }
   });
 }
