@@ -1,12 +1,12 @@
 'use strict';
 
-const colors = require('colors');
+const colors = require(`colors`);
 const packageInfo = require(`../package.json`);
 
 module.exports = {
   name: `description`,
   description: `печатает описание приложения`,
   execute() {
-    console.log(packageInfo.description.blue);
+    console.log(colors.blue(packageInfo.description));
   }
 };

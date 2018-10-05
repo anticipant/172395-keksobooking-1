@@ -1,6 +1,6 @@
 'use strict';
 
-const colors = require('colors');
+const colors = require(`colors`);
 const packageInfo = require(`../package.json`);
 
 module.exports = {
@@ -11,13 +11,13 @@ module.exports = {
       let number = it;
       switch (index) {
         case 0:
-          number = it.red;
+          number = colors.red(it);
           break;
         case 1:
-          number = it.green;
+          number = colors.green(it);
           break;
         case 2:
-          number = it.blue;
+          number = colors.blue(it);
           break;
       }
       return number;
