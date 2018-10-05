@@ -1,5 +1,6 @@
 'use strict';
 
+const colors = require('colors');
 const getAvailableCommands = () => {
   const cliInterface = require(`./cli-commands`);
   let commands = [];
@@ -15,7 +16,7 @@ const getAvailableCommands = () => {
   }
   return `Доступные команды:
   ${commands.map((it) => {
-    return `${it.name}${` `.repeat(15 - it.name.length)} — ${it.description}`;
+    return `${it.name.grey}${` `.repeat(15 - it.name.length)} — ${it.description.green}`;
   }).join(`
   `)}`;
 };
