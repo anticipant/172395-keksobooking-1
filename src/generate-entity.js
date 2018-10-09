@@ -1,58 +1,75 @@
 'use strict';
 
+const SEVEN_DAYS = 604800000;
+const OfferPrice = {
+  MIN: 1000,
+  MAX: 1000000,
+};
+const Coordinate = {
+  MIN_X: 300,
+  MAX_X: 900,
+  MIN_Y: 150,
+  MAX_Y: 500,
+};
+const OfferRooms = {
+  MIN: 1,
+  MAX: 5,
+};
+const OfferGuests = {
+  MIN: 1,
+  MAX: 100,
+};
+
+const getTimeStamp = () => {
+  const currentTime = Date.now();
+  const weekAgo = currentTime - SEVEN_DAYS;
+  return Math.floor(Math.random() * (currentTime - weekAgo)) + weekAgo;
+};
+
+const compareRandom = () => {
+  return Math.random() - 0.5;
+};
+
+const getRandomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+const getRandomArray = (array) => {
+  const randomNumber = offerFeatures[getRandomInt(0, offerFeatures.length)];
+  return array.map((it, index) => {
+    if (index <= randomNumber) {
+      return it;
+    }
+    return null;
+  });
+};
+
+const offerCheckInOut = [`12:00`, `13:00`, `14:00`];
+const offerTitles = [`Большая уютная квартира`,
+  `Маленькая неуютная квартира`,
+  `Огромный прекрасный дворец`,
+  `Маленький ужасный дворец`,
+  `Красивый гостевой домик`,
+  `Некрасивый негостеприимный домик`,
+  `Уютное бунгало далеко от моря`,
+  `Неуютное бунгало по колено в воде`];
+const offerType = [`flat`, `palac`, `house`, `bungalo`];
+const offerFeatures = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
+const offerPhotos = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
 const userData = {
   'avatar': `https://robohash.org/boom`,
-  'offerTitle': `Большая уютная квартира`,
-  'offerPrice': 100000,
-  'offerType': `flat`,
-  'offerRooms': 1,
-  'offerGuests': 2,
-  'offerCheckin': `sssssss`,
-  'offerFeatures': [`wi-fi`, `drinks`],
-  'offerPhotos': [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg'`],
-  'locationX': 500,
-  'locationY': 455,
-  'date': 100,
+  'offerTitle': offerTitles[getRandomInt(0, offerTitles.length)],
+  'offerPrice': getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
+  'offerType': offerCheckInOut[getRandomInt(0, offerType.length)],
+  'offerRooms': getRandomInt(OfferRooms.MIN, OfferRooms.MAX),
+  'offerGuests': getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
+  'offerCheckInOut': offerCheckInOut[getRandomInt(0, offerCheckInOut.length)],
+  'offerFeatures': getRandomArray(offerFeatures),
+  'offerPhotos': offerPhotos.sort(compareRandom),
+  'locationX': getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X),
+  'locationY': getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y),
+  'date': getTimeStamp(),
 };
-const itemTemplate = {
-  'author': {
-    'avatar': `строка, адрес изображения, можно использовать https://robohash.org/{{random-string}}`,
-  },
-
-  'offer': {
-    'title': `строка, заголовок предложения, одно из фиксированных значений 
-              'Большая уютная квартира', 
-              'Маленькая неуютная квартира', 
-              'Огромный прекрасный дворец', 
-              'Маленький ужасный дворец', 
-              'Красивый гостевой домик', 
-              'Некрасивый негостеприимный домик', 
-              'Уютное бунгало далеко от моря', 
-              'Неуютное бунгало по колено в воде'. 
-              Значения могут повторяться.`,
-    'address': `строка, адрес предложения, представляет собой запись вида '{{location.x}}, {{location.y}}'`,
-    'price': `число, случайная цена от 1000 до 1000000`,
-    'type': `строка с одним из четырёх фиксированных значений: flat, palace, house или bungalo`,
-    'rooms': `число, случайное количество комнат от 1 до 5`,
-    'guests': `число, случайное количество гостей, которое можно разместить`,
-    'checkin': `строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00,`,
-    'checkout': `строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00`,
-    'features': `массив строк случайной длины из неповторяющихся элементов: 'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner',`,
-    'description': `пустая строка,`,
-    'photos': `массив из строк 
-              'http://o0.github.io/assets/images/tokyo/hotel1.jpg', 
-              'http://o0.github.io/assets/images/tokyo/hotel2.jpg' и 
-              'http://o0.github.io/assets/images/tokyo/hotel3.jpg' 
-              расположенных в произвольном порядке`,
-  },
-
-  'location': {
-    'x': `случайное число, координата x метки на карте от 300 до 900,`,
-    'y': `случайное число, координата y метки на карте от 150 до 500`,
-  },
-  'date': `число, дата размещения, представляет собой timestamp в формате UNIX. Представляет собой случайное число в интервале от сейчас минус 7 дней`,
-};
-console.log(typeof itemTemplate);
 
 const generateEntity = () => {
   return {
@@ -61,21 +78,23 @@ const generateEntity = () => {
     },
     'offer': {
       'title': userData.offerTitle,
+      'address': `${userData.locationX}, ${userData.locationY}`,
       'price': userData.offerPrice,
       'type': userData.offerType,
       'rooms': userData.offerRooms,
       'guests': userData.offerGuests,
-      'checkin': userData.offerCheckin,
-      'checkout': userData.offerCheckin,
-      'features': [1, 2],
+      'checkin': userData.offerCheckInOut,
+      'checkout': userData.offerCheckInOut,
+      'features': userData.offerFeatures,
       'description': ``,
-      'photos': [``, ``, ``],
+      'photos': userData.offerPhotos,
     },
     'location': {
       'x': userData.locationX,
       'y': userData.locationY,
     },
-    'date': 1,
+    'date': userData.date,
   };
 };
+
 module.exports = generateEntity;
