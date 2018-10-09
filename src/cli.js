@@ -1,5 +1,6 @@
 'use strict';
 
+const colors = require(`colors`);
 const cliInterface = require(`./cli-commands`);
 const packageInfo = require(`../package.json`);
 
@@ -10,8 +11,8 @@ if (process.argv.length === 2) {
   if (cliInterface[command]) {
     cliInterface[command].execute();
   } else {
-    console.error(`Неизвестная команда {${command}}.
-Чтобы прочитать правила использования приложения, наберите "--help"`);
+    console.error(colors.red(`Неизвестная команда {${command}}.
+Чтобы прочитать правила использования приложения, наберите "--help"`));
     process.exit(1);
   }
 }
