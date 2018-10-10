@@ -41,11 +41,13 @@ const getRandomInt = (min, max) => {
 };
 
 const getRandomArray = (array) => {
-  const randomNumber = offerFeatures[getRandomInt(0, offerFeatures.length)];
+  const randomNumber = getRandomInt(0, offerFeatures.length);
+
   let resultArray = [];
   for (let i = 0; i < randomNumber; i++) {
     resultArray.push(array[i]);
   }
+
   return resultArray;
 };
 
