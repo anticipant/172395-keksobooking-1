@@ -37,13 +37,16 @@ const shuffleArray = (array) => {
 };
 
 const getRandomInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min)) + min;
+  const minValue = min ? min : 1;
+
+  return Math.floor(Math.random() * (max - minValue)) + minValue;
 };
 
 const getRandomArray = (array) => {
   const randomNumber = getRandomInt(0, offerFeatures.length);
+  const shuffledArray = shuffleArray(array);
 
-  return array.slice(0, randomNumber);
+  return shuffledArray.slice(0, randomNumber);
 };
 
 const offerCheckInOut = [`12:00`, `13:00`, `14:00`];
@@ -64,7 +67,7 @@ const generateEntity = () => {
   const locationY = getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y);
   return {
     'author': {
-      'avatar': `https://robohash.org/boom`,
+      'avatar': `https://robohash.org/boom-${getRandomInt(0, 100)}`,
     },
     'offer': {
       'title': offerTitles[getRandomInt(0, offerTitles.length)],
