@@ -61,33 +61,29 @@ const offerTitles = [`Большая уютная квартира`,
 const offerType = [`flat`, `palac`, `house`, `bungalo`];
 const offerFeatures = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
 const offerPhotos = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-const userData = [{
-  'avatar': `https://robohash.org/boom`,
-  'offerTitle': offerTitles[getRandomInt(0, offerTitles.length)],
-  'offerPrice': getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
-  'offerType': offerCheckInOut[getRandomInt(0, offerType.length)],
-  'offerRooms': getRandomInt(OfferRooms.MIN, OfferRooms.MAX),
-  'offerGuests': getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
-  'offerCheckInOut': offerCheckInOut[getRandomInt(0, offerCheckInOut.length)],
-  'offerFeatures': getRandomArray(offerFeatures),
-  'offerPhotos': shuffleArray(offerPhotos),
-  'locationX': getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X),
-  'locationY': getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y),
-  'date': getTimeStamp(),
-}, {
-  'avatar': `https://robohash.org/boom`,
-  'offerTitle': offerTitles[getRandomInt(0, offerTitles.length)],
-  'offerPrice': getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
-  'offerType': offerCheckInOut[getRandomInt(0, offerType.length)],
-  'offerRooms': getRandomInt(OfferRooms.MIN, OfferRooms.MAX),
-  'offerGuests': getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
-  'offerCheckInOut': offerCheckInOut[getRandomInt(0, offerCheckInOut.length)],
-  'offerFeatures': getRandomArray(offerFeatures),
-  'offerPhotos': shuffleArray(offerPhotos),
-  'locationX': getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X),
-  'locationY': getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y),
-  'date': getTimeStamp(),
-}];
+const getDataItem = (quantity) => {
+  let dataArray = [];
+
+  for (let i = 0; i < quantity; i++) {
+    dataArray.push({
+      'avatar': `https://robohash.org/boom`,
+      'offerTitle': offerTitles[getRandomInt(0, offerTitles.length)],
+      'offerPrice': getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
+      'offerType': offerType[getRandomInt(0, offerType.length)],
+      'offerRooms': getRandomInt(OfferRooms.MIN, OfferRooms.MAX),
+      'offerGuests': getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
+      'offerCheckInOut': offerCheckInOut[getRandomInt(0, offerCheckInOut.length)],
+      'offerFeatures': getRandomArray(offerFeatures),
+      'offerPhotos': shuffleArray(offerPhotos),
+      'locationX': getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X),
+      'locationY': getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y),
+      'date': getTimeStamp(),
+    });
+  }
+
+  return dataArray;
+};
+const userData = getDataItem(10);
 
 const generateEntity = () => {
   return userData.map((it) => {
