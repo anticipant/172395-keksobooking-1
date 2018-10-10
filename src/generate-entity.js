@@ -1,6 +1,6 @@
 'use strict';
 
-const SEVEN_DAYS = 604800000;
+const SEVEN_DAYS = 7 * 24 * 60 * 1000;
 const OfferPrice = {
   MIN: 1000,
   MAX: 1000000,
@@ -26,8 +26,14 @@ const getTimeStamp = () => {
   return Math.floor(Math.random() * (currentTime - weekAgo)) + weekAgo;
 };
 
-const compareRandom = () => {
-  return Math.random() - 0.5;
+const shuffleArray = (array) => {
+  let resultArray = array.slice();
+
+  for (let i = resultArray.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [resultArray[i], resultArray[j]] = [resultArray[j], resultArray[i]];
+  }
+  return resultArray;
 };
 
 const getRandomInt = (min, max) => {
@@ -36,12 +42,11 @@ const getRandomInt = (min, max) => {
 
 const getRandomArray = (array) => {
   const randomNumber = offerFeatures[getRandomInt(0, offerFeatures.length)];
-  return array.map((it, index) => {
-    if (index <= randomNumber) {
-      return it;
-    }
-    return null;
-  });
+  let resultArray = [];
+  for (let i = 0; i < randomNumber; i++) {
+    resultArray.push(array[i]);
+  }
+  return resultArray;
 };
 
 const offerCheckInOut = [`12:00`, `13:00`, `14:00`];
@@ -56,7 +61,7 @@ const offerTitles = [`Большая уютная квартира`,
 const offerType = [`flat`, `palac`, `house`, `bungalo`];
 const offerFeatures = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
 const offerPhotos = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-const userData = {
+const userData = [{
   'avatar': `https://robohash.org/boom`,
   'offerTitle': offerTitles[getRandomInt(0, offerTitles.length)],
   'offerPrice': getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
@@ -65,36 +70,51 @@ const userData = {
   'offerGuests': getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
   'offerCheckInOut': offerCheckInOut[getRandomInt(0, offerCheckInOut.length)],
   'offerFeatures': getRandomArray(offerFeatures),
-  'offerPhotos': offerPhotos.sort(compareRandom),
+  'offerPhotos': shuffleArray(offerPhotos),
   'locationX': getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X),
   'locationY': getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y),
   'date': getTimeStamp(),
-};
+}, {
+  'avatar': `https://robohash.org/boom`,
+  'offerTitle': offerTitles[getRandomInt(0, offerTitles.length)],
+  'offerPrice': getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
+  'offerType': offerCheckInOut[getRandomInt(0, offerType.length)],
+  'offerRooms': getRandomInt(OfferRooms.MIN, OfferRooms.MAX),
+  'offerGuests': getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
+  'offerCheckInOut': offerCheckInOut[getRandomInt(0, offerCheckInOut.length)],
+  'offerFeatures': getRandomArray(offerFeatures),
+  'offerPhotos': shuffleArray(offerPhotos),
+  'locationX': getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X),
+  'locationY': getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y),
+  'date': getTimeStamp(),
+}];
 
 const generateEntity = () => {
-  return {
-    'author': {
-      'avatar': userData.avatar
-    },
-    'offer': {
-      'title': userData.offerTitle,
-      'address': `${userData.locationX}, ${userData.locationY}`,
-      'price': userData.offerPrice,
-      'type': userData.offerType,
-      'rooms': userData.offerRooms,
-      'guests': userData.offerGuests,
-      'checkin': userData.offerCheckInOut,
-      'checkout': userData.offerCheckInOut,
-      'features': userData.offerFeatures,
-      'description': ``,
-      'photos': userData.offerPhotos,
-    },
-    'location': {
-      'x': userData.locationX,
-      'y': userData.locationY,
-    },
-    'date': userData.date,
-  };
+  return userData.map((it) => {
+    return {
+      'author': {
+        'avatar': it.avatar
+      },
+      'offer': {
+        'title': it.offerTitle,
+        'address': `${it.locationX}, ${it.locationY}`,
+        'price': it.offerPrice,
+        'type': it.offerType,
+        'rooms': it.offerRooms,
+        'guests': it.offerGuests,
+        'checkin': it.offerCheckInOut,
+        'checkout': it.offerCheckInOut,
+        'features': it.offerFeatures,
+        'description': ``,
+        'photos': it.offerPhotos,
+      },
+      'location': {
+        'x': it.locationX,
+        'y': it.locationY,
+      },
+      'date': it.date,
+    };
+  });
 };
 
 module.exports = generateEntity;
