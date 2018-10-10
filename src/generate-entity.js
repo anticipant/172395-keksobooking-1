@@ -27,23 +27,24 @@ const getTimeStamp = () => {
 };
 
 const shuffleArray = (array) => {
-  let resultArray = array.slice();
+  const arrayLength = array.length;
+  let initialArray = array.slice();
+  let shuffledArray = [];
 
-  for (let i = resultArray.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [resultArray[i], resultArray[j]] = [resultArray[j], resultArray[i]];
+  for (let i = 0; i < arrayLength; i++) {
+    let position = getRandomInt(0, initialArray.length);
+    shuffledArray.push(initialArray.splice(position, 1)[0]);
   }
-  return resultArray;
+
+  return shuffledArray;
 };
 
 const getRandomInt = (min, max) => {
-  const minValue = min ? min : 1;
-
-  return Math.floor(Math.random() * (max - minValue)) + minValue;
+  return Math.floor(Math.random() * (max - min)) + min;
 };
 
 const getRandomArray = (array) => {
-  const randomNumber = getRandomInt(0, offerFeatures.length);
+  const randomNumber = getRandomInt(1, array.length);
   const shuffledArray = shuffleArray(array);
 
   return shuffledArray.slice(0, randomNumber);
