@@ -22,5 +22,6 @@ module.exports = {
       }
       return number;
     }).join(`.`)}`);
+    process.exit(0);
   }
 };

@@ -8,5 +8,6 @@ module.exports = {
   description: `печатает описание приложения`,
   execute() {
     console.log(colors.blue(packageInfo.description));
+    process.exit(0);
   }
 };

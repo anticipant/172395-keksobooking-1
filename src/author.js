@@ -8,5 +8,6 @@ module.exports = {
   description: `печатает имя автора приложения`,
   execute() {
     console.log(colors.blue(packageInfo.author));
+    process.exit(0);
   }
 };

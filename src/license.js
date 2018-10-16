@@ -8,5 +8,6 @@ module.exports = {
   description: `печатает название лицензии`,
   execute() {
     console.log(colors.red(packageInfo.license));
+    process.exit(0);
   }
 };
