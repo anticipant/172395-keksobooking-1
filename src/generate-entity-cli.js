@@ -2,7 +2,6 @@
 
 const colors = require(`colors`);
 const generateEntity = require(`./generate-entity`);
-const createDirectory = require(`./create-directory`);
 const writeFile = require(`./write-file`);
 const readline = require(`readline`);
 const fs = require(`fs`);
@@ -15,13 +14,14 @@ const createInterface = () => {
   });
 };
 
-const getDataJSON = () => {
-  let array = [];
-  for (let i = 0; i < dataObject.quantity; i++) {
-    array.push(generateEntity());
+const getDataJSON = (quantity) => {
+  let dataArray = [];
+
+  for (let i = 0; i < quantity; i++) {
+    dataArray.push(generateEntity());
   }
 
-  return JSON.stringify(array);
+  return JSON.stringify(dataArray);
 };
 
 const isCorrectPathName = (name) => {
@@ -82,7 +82,7 @@ const generateEntityCli = () => {
           questions[namesOfTheActions.shift()](line);
 
           if (namesOfTheActions.length === 0) {
-            const data = getDataJSON();
+            const data = getDataJSON(dataObject.quantity);
             const resultDirectoryPath = `${process.cwd()}/${dataObject.directory}`;
             const isExist = fs.existsSync(`${resultDirectoryPath}/data.json`);
 
@@ -100,7 +100,9 @@ const generateEntityCli = () => {
                 }
               });
             } else {
-              createDirectory(resultDirectoryPath);
+              fs.mkdirSync(resultDirectoryPath, { recursive: true }, (err) => {
+                if (err) throw err;
+              });
               writeFile(resultDirectoryPath, data);
             }
           }
