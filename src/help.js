@@ -25,5 +25,6 @@ module.exports = {
   description: `выводит возможные команды`,
   execute() {
     console.log(getAvailableCommands());
+    process.exit(0);
   }
 };
