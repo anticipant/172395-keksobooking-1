@@ -100,8 +100,10 @@ const generateEntityCli = () => {
                 }
               });
             } else {
-              fs.mkdirSync(resultDirectoryPath, { recursive: true }, (err) => {
-                if (err) throw err;
+              fs.mkdirSync(resultDirectoryPath, {recursive: true}, (err) => {
+                if (err) {
+                  throw err;
+                }
               });
               writeFile(resultDirectoryPath, data);
             }
