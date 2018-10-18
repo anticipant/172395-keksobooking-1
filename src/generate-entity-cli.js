@@ -3,12 +3,11 @@
 const colors = require(`colors`);
 const generateEntity = require(`./generate-entity`);
 const writeFile = require(`./write-file`);
-const readline = require(`readline`);
+const readLine = require(`readline`);
 const fs = require(`fs`);
 
-
 const createInterface = () => {
-  return readline.createInterface({
+  return readLine.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
@@ -32,95 +31,99 @@ const isCorrectPathName = (name) => {
 };
 
 const appClose = (message = `Хорошего дня!`) => {
-  readlineInterface.close();
+  readLineInterface.close();
   console.log(colors.red(`Программа закрыта`));
   console.log(colors.red(message));
   process.exit(0);
 };
 
-const questions = {
-  setPromptQuantity: () => {
-    readlineInterface.setPrompt(`Сколько элементов нужно создать?(введите число) `);
-    readlineInterface.prompt();
-  },
-  setQuantityValue: (quantity = 1) => {
-    if (quantity > 0) {
-      dataObject.quantity = quantity;
-      readlineInterface.emit(`line`);
-    } else {
-      appClose(`Неверно указано количество элементов!`);
-    }
-  },
-  setPromptPathName: () => {
-    readlineInterface.setPrompt(`Укажите путь до файла:  `);
-    readlineInterface.prompt();
-  },
-  setPathName: (path = `user`) => {
-    if (!isCorrectPathName(path)) {
-      appClose(`Неверно указан путь!`);
-    } else {
-      dataObject.directory = path;
-    }
-  },
-};
-let readlineInterface = createInterface();
+let readLineInterface = createInterface();
 let dataObject = {
   quantity: 0,
   directory: ``,
 };
+const questions = [{
+  excute(readline) {
+    readline.question(`Сгенерировать данные? да/нет `, (answer) => {
+
+      switch (answer) {
+        case `да`:
+          readline.emit(`line`);
+          break;
+
+        case `нет`:
+          appClose();
+          break;
+
+        default:
+          appClose(`'${answer}' - невалидный ответ`);
+          break;
+      }
+    });
+  }
+}, {
+  excute(readline) {
+    readline.question(`Сколько элементов нужно создать?(введите число) `, (quantity) => {
+
+      if (quantity > 0) {
+        dataObject.quantity = quantity;
+      } else {
+        appClose(`Неверно указано количество элементов!`);
+      }
+
+      readline.emit(`line`);
+    });
+  }
+}, {
+  excute(readline) {
+    readline.question(`Укажите путь до файла:  `, (path = `user`) => {
+
+      if (!isCorrectPathName(path)) {
+        appClose(`Неверно указан путь!`);
+      } else {
+        dataObject.directory = path;
+      }
+
+      readline.emit(`line`);
+    });
+  }
+}];
 
 const generateEntityCli = () => {
 
-  readlineInterface.question(`Сгенерировать данные? да/нет `, (answer) => {
+  readLineInterface.on(`line`, () => {
 
-    switch (answer) {
-      case `да`:
-        let namesOfTheActions = [`setPromptQuantity`, `setQuantityValue`, `setPromptPathName`, `setPathName`];
+    if (questions.length !== 0) {
+      questions.shift().excute(readLineInterface);
+    } else {
+      const data = getDataJSON(dataObject.quantity);
+      const resultDirectoryPath = `${process.cwd()}/${dataObject.directory}`;
+      const isExist = fs.existsSync(`${resultDirectoryPath}/data.json`);
 
-        readlineInterface.on(`line`, (line) => {
+      readLineInterface.close();
 
-          questions[namesOfTheActions.shift()](line);
+      if (isExist) {
+        readLineInterface = createInterface();
+        readLineInterface.question(colors.grey(`Файл уже существует. Перезаписать? да/нет `), (questionAnswer) => {
 
-          if (namesOfTheActions.length === 0) {
-            const data = getDataJSON(dataObject.quantity);
-            const resultDirectoryPath = `${process.cwd()}/${dataObject.directory}`;
-            const isExist = fs.existsSync(`${resultDirectoryPath}/data.json`);
-
-            readlineInterface.close();
-
-            if (isExist) {
-              readlineInterface = createInterface();
-              readlineInterface.question(colors.grey(`Файл уже существует. Перезаписать? да/нет `), (questionAnswer) => {
-
-                if (questionAnswer === `да`) {
-                  readlineInterface.close();
-                  writeFile(resultDirectoryPath, data);
-                } else {
-                  appClose(`Пока...`);
-                }
-              });
-            } else {
-              fs.mkdirSync(resultDirectoryPath, {recursive: true}, (err) => {
-                if (err) {
-                  throw err;
-                }
-              });
-              writeFile(resultDirectoryPath, data);
-            }
+          if (questionAnswer === `да`) {
+            readLineInterface.close();
+            writeFile(resultDirectoryPath, data);
+          } else {
+            appClose(`Пока...`);
           }
         });
-        readlineInterface.emit(`line`);
-        break;
-
-      case `нет`:
-        appClose();
-        break;
-
-      default:
-        appClose(`'${answer}' - невалидный ответ`);
-        break;
+      } else {
+        fs.mkdirSync(resultDirectoryPath, {recursive: true}, (err) => {
+          if (err) {
+            throw err;
+          }
+        });
+        writeFile(resultDirectoryPath, data);
+      }
     }
   });
+  readLineInterface.emit(`line`);
 };
 
 module.exports = generateEntityCli;
