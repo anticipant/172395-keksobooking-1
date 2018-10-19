@@ -13,7 +13,9 @@ const ContentType = {
   css: `text/css`,
   html: `text/html; charset=UTF-8`,
   jpg: `image/jpeg`,
-  ico: `image/x-icon`
+  ico: `image/x-icon`,
+  png: `image/png`,
+  gif: `image/gif`,
 };
 
 const stat = promisify(fs.stat);
