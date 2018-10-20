@@ -1,11 +1,11 @@
 'use strict';
 
+const colors = require(`colors`);
 const {extname} = require(`path`);
 const http = require(`http`);
 const url = require(`url`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
-const readLine = require(`readline`);
 
 const HOSTNAME = `127.0.0.1`;
 const PORT = 3000;
@@ -21,13 +21,6 @@ const ContentType = {
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
 const readfile = promisify(fs.readFile);
-
-const createInterface = () => {
-  return readLine.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-};
 
 const printDirectory = (relativePath, files) => {
   return `<!DOCTYPE html>
@@ -62,14 +55,10 @@ const readDir = async (path, relativePath, res) => {
 module.exports = {
   name: `server`,
   description: `принимает на вход номер порта и поднимает сервер`,
-  execute() {
-    const readLineInterface = createInterface();
+  execute(parameters) {
+    let [port = PORT] = parameters;
 
-    readLineInterface.question(`Введите номер порта: `, (answer) => {
-      const port = +answer || PORT;
-
-      readLineInterface.close();
-
+    if (port > 0) {
       const server = http.createServer((req, res) => {
         const localPath = url.parse(req.url).pathname;
         const absolutePath = `${__dirname.slice(0, -4)}/static/${localPath}`;
@@ -107,6 +96,9 @@ module.exports = {
         }
         console.log(`Server running at http://${HOSTNAME}:${port}/`);
       });
-    });
+    } else {
+      console.error(colors.red(`Неверно указан номер порта`));
+      process.exit(1);
+    }
   }
 };
