@@ -61,14 +61,13 @@ module.exports = {
 
     if (port > 0) {
       const server = http.createServer((request, response) => {
-        const localPath = url.parse(request.url).pathname;
+        const localPath = url.parse(request.url).pathname === `/` ? `/index.html` : url.parse(request.url).pathname;
         const currentNodeDirectory = process.cwd();
         const staticPath = `${currentNodeDirectory}/static/${localPath}`;
 
         (async () => {
           try {
             const pathStat = await stat(staticPath);
-            console.log(pathStat);
 
             response.statusCode = 200;
             response.statusMessage = `OK`;
