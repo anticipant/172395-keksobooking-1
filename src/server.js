@@ -22,6 +22,7 @@ const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
 const readfile = promisify(fs.readFile);
 
+
 const printDirectory = (relativePath, files) => {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -62,20 +63,20 @@ module.exports = {
       const server = http.createServer((request, response) => {
         const localPath = url.parse(request.url).pathname;
         const currentNodeDirectory = process.cwd();
-        const absolutePath = `${currentNodeDirectory}/static/${localPath}`;
+        const staticPath = `${currentNodeDirectory}/static/${localPath}`;
 
         (async () => {
           try {
-            const pathStat = await stat(absolutePath);
+            const pathStat = await stat(staticPath);
             console.log(pathStat);
 
             response.statusCode = 200;
             response.statusMessage = `OK`;
 
             if (pathStat.isDirectory()) {
-              await readDirectory(absolutePath, localPath, response);
+              await readDirectory(staticPath, localPath, response);
             } else {
-              await readFile(absolutePath, response);
+              await readFile(staticPath, response);
             }
           } catch (err) {
             console.error(err);
