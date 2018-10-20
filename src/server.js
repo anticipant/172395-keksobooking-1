@@ -37,19 +37,19 @@ const printDirectory = (relativePath, files) => {
 </html>`;
 };
 
-const readFile = async (path, res) => {
+const readFile = async (path, response) => {
   const data = await readfile(path);
   const extension = extname(path).slice(1);
   const contentType = ContentType[extension] ? ContentType[extension] : `text/plain`;
 
-  res.setHeader(`content-type`, contentType);
-  res.end(data);
+  response.setHeader(`content-type`, contentType);
+  response.end(data);
 };
 
-const readDir = async (path, relativePath, res) => {
+const readDirectory = async (path, relativePath, response) => {
   const files = await readdir(path);
-  res.setHeader(`content-type`, `text/html`);
-  res.end(printDirectory(relativePath, files));
+  response.setHeader(`content-type`, `text/html`);
+  response.end(printDirectory(relativePath, files));
 };
 
 module.exports = {
@@ -59,33 +59,34 @@ module.exports = {
     let [port = PORT] = parameters;
 
     if (port > 0) {
-      const server = http.createServer((req, res) => {
-        const localPath = url.parse(req.url).pathname;
-        const absolutePath = `${__dirname.slice(0, -4)}/static/${localPath}`;
+      const server = http.createServer((request, response) => {
+        const localPath = url.parse(request.url).pathname;
+        const currentNodeDirectory = process.cwd();
+        const absolutePath = `${currentNodeDirectory}/static/${localPath}`;
 
         (async () => {
           try {
             const pathStat = await stat(absolutePath);
             console.log(pathStat);
 
-            res.statusCode = 200;
-            res.statusMessage = `OK`;
+            response.statusCode = 200;
+            response.statusMessage = `OK`;
 
             if (pathStat.isDirectory()) {
-              await readDir(absolutePath, localPath, res);
+              await readDirectory(absolutePath, localPath, response);
             } else {
-              await readFile(absolutePath, res);
+              await readFile(absolutePath, response);
             }
-          } catch (e) {
-            console.log(e);
-            res.writeHead(404, `Not Found`);
-            res.end();
+          } catch (err) {
+            console.error(err);
+            response.writeHead(404, `Not Found`);
+            response.end();
           }
-        })().catch((e) => {
-          res.writeHead(500, e.message, {
+        })().catch((err) => {
+          response.writeHead(500, err.message, {
             'content-type': `text/plain`
           });
-          res.end(e.message);
+          response.end(err.message);
         });
       });
 

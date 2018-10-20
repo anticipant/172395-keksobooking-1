@@ -10,10 +10,10 @@ if (process.argv.length === 2) {
   generateEntityCli();
 } else {
   const [, , command, ...parameters] = process.argv;
-  const commandKey = command.slice(2);
+  const commandName = command.slice(2);
 
-  if (cliInterface[commandKey]) {
-    cliInterface[commandKey].execute(parameters);
+  if (cliInterface[commandName]) {
+    cliInterface[commandName].execute(parameters);
   } else {
     console.error(colors.red(`Неизвестная команда {${command}}.
 Чтобы прочитать правила использования приложения, наберите "--help"`));
