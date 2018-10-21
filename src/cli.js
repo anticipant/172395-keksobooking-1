@@ -9,10 +9,11 @@ if (process.argv.length === 2) {
   console.log(colors.green(`Привет пользователь! Эта программа будет запускать сервер «${packageInfo.name}». Автор: ${packageInfo.author}.`));
   generateEntityCli();
 } else {
-  const command = process.argv[2].slice(2);
+  const [, , command, ...parameters] = process.argv;
+  const commandName = command.slice(2);
 
-  if (cliInterface[command]) {
-    cliInterface[command].execute();
+  if (cliInterface[commandName]) {
+    cliInterface[commandName].execute(parameters);
   } else {
     console.error(colors.red(`Неизвестная команда {${command}}.
 Чтобы прочитать правила использования приложения, наберите "--help"`));

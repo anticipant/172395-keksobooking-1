@@ -37,7 +37,7 @@ const appClose = (message = `Хорошего дня!`) => {
   process.exit(0);
 };
 
-let readLineInterface = createInterface();
+let readLineInterface;
 let dataObject = {
   quantity: 0,
   directory: ``,
@@ -90,7 +90,7 @@ const questions = [{
 }];
 
 const generateEntityCli = () => {
-
+  readLineInterface = createInterface();
   readLineInterface.on(`line`, () => {
 
     if (questions.length !== 0) {
