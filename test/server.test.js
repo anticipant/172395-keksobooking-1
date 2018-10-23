@@ -41,17 +41,17 @@ describe(`GET /api/offers`, () => {
 
 });
 
-describe(`GET /api/offers/:date`, () => {
-  it(`get wizard with name "Мерлин"`, async () => {
-    const response = await request(app).
-    get(`/api/offers/`).
-    set(`Accept`, `application/json`).
-    expect(200).
-    expect(`Content-Type`, /json/);
-
-    const wizard = response.body;
-    assert.strictEqual(wizard.name, `Мерлин`);
-  });
-
-});
+// describe(`GET /api/offers/:date`, () => {
+//   it(`get wizard with name "Мерлин"`, async () => {
+//     const response = await request(app).
+//     get(`/api/offers/`).
+//     set(`Accept`, `application/json`).
+//     expect(200).
+//     expect(`Content-Type`, /json/);
+//
+//     const wizard = response.body;
+//     assert.strictEqual(wizard.name, `Мерлин`);
+//   });
+//
+// });
 

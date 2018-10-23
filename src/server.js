@@ -48,13 +48,21 @@ offersRouter.get(``, (request, response) => {
   const skipParameter = request.query.skip || data.skip;
   const limitParameter = request.query.limit || data.limit;
   const finalData = (data.data.slice(skipParameter)).slice(0, limitParameter);
-  
+
   response.send(finalData);
 });
 offersRouter.get(`/:date`, (request, response) => {
   const date = request.params.date;
   console.log(`date`, date);
-  response.send(`hey`);
+  if (date.length !== 13) {
+    throw `В запросе не указана дата`;
+  }
+
+  const found = finalData.find((it) => it.date === date);
+  if (!found) {
+    throw `Объявления с такой датой не найдено!`;
+  }
+  res.send(found);
 });
 
 
@@ -63,20 +71,6 @@ app.use(`/api/offers`, offersRouter);
 //   const data = getOffersData();
 //   response.send(data.data);
 // });
-
-
-
-// ********
-// app.use(`/:date`, (request, response) => {
-//   const date = request.params.date;
-//   console.log(date);
-//
-//
-// response.send(`hey`);
-// });
-// ********
-
-
 
 app.use(NOT_FOUND_HANDLER);
 
