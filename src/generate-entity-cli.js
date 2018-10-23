@@ -14,13 +14,17 @@ const createInterface = () => {
 };
 
 const getDataJSON = (quantity) => {
-  let dataArray = [];
+  const data = {
+    data: [],
+    skip: 0,
+    limit: 20,
+  };
 
   for (let i = 0; i < quantity; i++) {
-    dataArray.push(generateEntity());
+    data.data.push(generateEntity());
   }
 
-  return JSON.stringify(dataArray);
+  return JSON.stringify(data);
 };
 
 const isCorrectPathName = (name) => {
@@ -37,6 +41,14 @@ const appClose = (message = `Хорошего дня!`) => {
   process.exit(0);
 };
 
+const saveDataPathDirectory = (data) => {
+
+  fs.writeFile(`${process.cwd()}/file-information/offers-data-path.json`, JSON.stringify({'offers-data-path': data}), (err) => {
+    if (err) {
+      throw err;
+    }
+  });
+};
 let readLineInterface;
 let dataObject = {
   quantity: 0,
@@ -76,12 +88,13 @@ const questions = [{
   }
 }, {
   excute(readline) {
-    readline.question(`Укажите путь до файла:  `, (path = `user`) => {
+    readline.question(`Укажите путь до файла:  `, (path = `data`) => {
 
       if (!isCorrectPathName(path)) {
         appClose(`Неверно указан путь!`);
       } else {
         dataObject.directory = path;
+        saveDataPathDirectory(path, );
       }
 
       readline.emit(`line`);
