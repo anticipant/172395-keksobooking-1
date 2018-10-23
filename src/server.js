@@ -45,11 +45,15 @@ const ERROR_HANDLER = (err, request, response) => {
 
 offersRouter.get(``, (request, response) => {
   const data = getOffersData();
-  response.send(data.data);
+  const skipParameter = request.query.skip || data.skip;
+  const limitParameter = request.query.limit || data.limit;
+  const finalData = (data.data.slice(skipParameter)).slice(0, limitParameter);
+  
+  response.send(finalData);
 });
 offersRouter.get(`/:date`, (request, response) => {
   const date = request.params.date;
-  console.log(date);
+  console.log(`date`, date);
   response.send(`hey`);
 });
 
