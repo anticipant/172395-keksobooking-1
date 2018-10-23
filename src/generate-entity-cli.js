@@ -94,7 +94,7 @@ const questions = [{
         appClose(`Неверно указан путь!`);
       } else {
         dataObject.directory = path;
-        saveDataPathDirectory(path, );
+        saveDataPathDirectory(path);
       }
 
       readline.emit(`line`);
