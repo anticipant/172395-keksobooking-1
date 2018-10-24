@@ -1,6 +1,5 @@
 'use strict';
 
-const SEVEN_DAYS = 7 * 24 * 60 * 1000;
 const OfferPrice = {
   MIN: 1000,
   MAX: 1000000,
@@ -18,12 +17,6 @@ const OfferRooms = {
 const OfferGuests = {
   MIN: 1,
   MAX: 100,
-};
-
-const getTimeStamp = () => {
-  const currentTime = Date.now();
-  const weekAgo = currentTime - SEVEN_DAYS;
-  return Math.floor(Math.random() * (currentTime - weekAgo)) + weekAgo;
 };
 
 const shuffleArray = (array) => {
@@ -50,6 +43,16 @@ const getRandomArray = (array) => {
   return shuffledArray.slice(0, randomNumber);
 };
 
+const dates = [
+  1540318609198,
+  1540101609198,
+  1541308109198,
+  1510308619198,
+  1140308601198,
+  1540308609198,
+  1540308609118,
+  1540308609191
+];
 const offerCheckInOut = [`12:00`, `13:00`, `14:00`];
 const offerTitles = [`Большая уютная квартира`,
   `Маленькая неуютная квартира`,
@@ -87,7 +90,7 @@ const generateEntity = () => {
       'x': locationX,
       'y': locationY,
     },
-    'date': getTimeStamp(),
+    'date': dates[getRandomInt(0, dates.length)],
   };
 };
 

@@ -73,15 +73,15 @@ describe(`GET /api/offers/:date`, () => {
     assert.equal(`${offers[0].date}`.length, 13);
   });
 
-  it(`get offer  with date "1540312364776"`, async () => {
+  it(`get offer  with date "1540101609198"`, async () => {
     const response = await request(app).
-    get(`/api/offers/1540312364776`).
+    get(`/api/offers/1540101609198`).
     set(`Accept`, `application/json`).
     expect(200).
     expect(`Content-Type`, /json/);
 
     const offer = response.body;
-    assert.strictEqual(offer.date, 1540312364776);
+    assert.strictEqual(offer.date, 1540101609198);
   });
 
 });
