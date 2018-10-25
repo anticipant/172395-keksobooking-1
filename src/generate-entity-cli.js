@@ -13,14 +13,14 @@ const createInterface = () => {
   });
 };
 
-const getDataJSON = (quantity) => {
-  let dataArray = [];
+const getOffersDataJSON = (quantity) => {
+  const offers = [];
 
   for (let i = 0; i < quantity; i++) {
-    dataArray.push(generateEntity());
+    offers.push(generateEntity());
   }
 
-  return JSON.stringify(dataArray);
+  return JSON.stringify(offers);
 };
 
 const isCorrectPathName = (name) => {
@@ -76,7 +76,7 @@ const questions = [{
   }
 }, {
   excute(readline) {
-    readline.question(`Укажите путь до файла:  `, (path = `user`) => {
+    readline.question(`Укажите путь до файла:  `, (path = `data`) => {
 
       if (!isCorrectPathName(path)) {
         appClose(`Неверно указан путь!`);
@@ -96,7 +96,7 @@ const generateEntityCli = () => {
     if (questions.length !== 0) {
       questions.shift().excute(readLineInterface);
     } else {
-      const data = getDataJSON(dataObject.quantity);
+      const data = getOffersDataJSON(dataObject.quantity);
       const resultDirectoryPath = `${process.cwd()}/${dataObject.directory}`;
       const isExist = fs.existsSync(`${resultDirectoryPath}/data.json`);
 
