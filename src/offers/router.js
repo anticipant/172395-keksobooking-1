@@ -1,36 +1,43 @@
 'use strict';
 
-const colors = require(`colors`);
 const express = require(`express`);
-// eslint-disable-next-line new-cap
-const offersRouter = express.Router();
-const fs = require(`fs`);
+const generateEntity = require(`../generate-entity`);
+const multer = require(`multer`);
 
-const getOffersDataPath = () => {
-  const filePath = `${process.cwd()}/file-information/offers-data-path.json`;
-  const isExist = fs.existsSync(filePath);
+const DefaultParams = {
+  SKIP: 0,
+  LIMIT: 20,
+  TOTAL: 20,
+};
+const upload = multer({storage: multer.memoryStorage()});
 
-  if (!isExist) {
-    console.log(colors.red(`Сгенерируйте данные`));
-    process.exit(0);
+const {Router: router} = express;
+
+const offersRouter = router();
+
+const jsonParser = express.json();
+
+const getOffersData = (quantity = DefaultParams.TOTAL) => {
+  const offers = [];
+
+  for (let i = 0; i < quantity; i++) {
+    offers.push(generateEntity());
   }
 
-  const data = fs.readFileSync(filePath, `utf8`);
-  return JSON.parse(data)[`offers-data-path`];
+  return offers;
 };
-const getOffersData = () => {
 
-  const path = getOffersDataPath();
-  const data = fs.readFileSync(`${process.cwd()}/${path}/data.json`, `utf8`);
+const offersData = getOffersData();
 
-  return JSON.parse(data);
+const getFinalData = (request, data) => {
+  const skipParameter = +request.query.skip || DefaultParams.SKIP;
+  const limitParameter = +request.query.limit || DefaultParams.LIMIT;
+
+  return data.slice(skipParameter, skipParameter + limitParameter);
 };
 
 offersRouter.get(``, (request, response) => {
-  const data = getOffersData();
-  const skipParameter = +request.query.skip || data.skip;
-  const limitParameter = +request.query.limit || data.limit;
-  const finalData = (data.data.slice(skipParameter)).slice(0, limitParameter);
+  const finalData = getFinalData(request, offersData);
 
   response.send(finalData);
 });
@@ -41,10 +48,7 @@ offersRouter.get(`/:date`, (request, response) => {
   if (date.length !== 13) {
     response.status(400).send(`В запросе не указана дата`);
   } else {
-    const data = getOffersData();
-    const skipParameter = +request.query.skip || data.skip;
-    const limitParameter = +request.query.limit || data.limit;
-    const finalData = (data.data.slice(skipParameter)).slice(0, limitParameter);
+    const finalData = getFinalData(request, offersData);
 
     const found = finalData.find((it) => {
       return it.date === +date;
@@ -54,6 +58,12 @@ offersRouter.get(`/:date`, (request, response) => {
     }
     response.send(found);
   }
+});
+
+offersRouter.post(``, jsonParser, upload.none(), (request, response) => {
+  const body = request.body;
+
+  response.send(body);
 });
 
 module.exports = offersRouter;

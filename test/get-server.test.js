@@ -18,7 +18,7 @@ describe(`GET /api/offers`, () => {
     assert.equal(offers.length, 20);
   });
 
-  it(`get offers with limit`, async () => {
+  it(`get offers with "limit"`, async () => {
 
     const response = await request(app).
     get(`/api/offers?limit=1`).
@@ -28,6 +28,41 @@ describe(`GET /api/offers`, () => {
 
     const offers = response.body;
     assert.equal(offers.length, 1);
+  });
+
+  it(`get offers with "skip=11"`, async () => {
+
+    const response = await request(app).
+    get(`/api/offers?skip=11`).
+    set(`Accept`, `application/json`).
+    expect(200).
+    expect(`Content-Type`, `application/json; charset=utf-8`);
+
+    const offers = response.body;
+    assert.equal(offers.length, 9);
+  });
+
+  it(`get offers with "skip=15" and "limit=2"`, async () => {
+
+    const response = await request(app).
+    get(`/api/offers?skip=15&limit=2`).
+    set(`Accept`, `application/json`).
+    expect(200).
+    expect(`Content-Type`, `application/json; charset=utf-8`);
+
+    const offers = response.body;
+    assert.equal(offers.length, 2);
+  });
+  it(`get offers with "skip=15" and "limit=10"`, async () => {
+
+    const response = await request(app).
+    get(`/api/offers?skip=15&limit=10`).
+    set(`Accept`, `application/json`).
+    expect(200).
+    expect(`Content-Type`, `application/json; charset=utf-8`);
+
+    const offers = response.body;
+    assert.equal(offers.length, 5);
   });
 
   it(`get data with invalid params`, async () => {
@@ -60,17 +95,6 @@ describe(`GET /api/offers/:date`, () => {
     expect(404).
     expect(`Объявления не найдено!`).
     expect(`Content-Type`, /html/);
-  });
-
-  it(`get offer with some date and check date length`, async () => {
-    const response = await request(app).
-    get(`/api/offers/`).
-    set(`Accept`, `application/json`).
-    expect(200).
-    expect(`Content-Type`, /json/);
-
-    const offers = response.body;
-    assert.equal(`${offers[0].date}`.length, 13);
   });
 
   it(`get offer  with date "1540101609198"`, async () => {

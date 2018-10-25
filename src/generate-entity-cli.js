@@ -13,18 +13,14 @@ const createInterface = () => {
   });
 };
 
-const getDataJSON = (quantity) => {
-  const data = {
-    data: [],
-    skip: 0,
-    limit: 20,
-  };
+const getOffersDataJSON = (quantity) => {
+  const offers = [];
 
   for (let i = 0; i < quantity; i++) {
-    data.data.push(generateEntity());
+    offers.push(generateEntity());
   }
 
-  return JSON.stringify(data);
+  return JSON.stringify(offers);
 };
 
 const isCorrectPathName = (name) => {
@@ -41,14 +37,6 @@ const appClose = (message = `Хорошего дня!`) => {
   process.exit(0);
 };
 
-const saveDataPathDirectory = (data) => {
-
-  fs.writeFile(`${process.cwd()}/file-information/offers-data-path.json`, JSON.stringify({'offers-data-path': data}), (err) => {
-    if (err) {
-      throw err;
-    }
-  });
-};
 let readLineInterface;
 let dataObject = {
   quantity: 0,
@@ -94,7 +82,6 @@ const questions = [{
         appClose(`Неверно указан путь!`);
       } else {
         dataObject.directory = path;
-        saveDataPathDirectory(path);
       }
 
       readline.emit(`line`);
@@ -109,7 +96,7 @@ const generateEntityCli = () => {
     if (questions.length !== 0) {
       questions.shift().excute(readLineInterface);
     } else {
-      const data = getDataJSON(dataObject.quantity);
+      const data = getOffersDataJSON(dataObject.quantity);
       const resultDirectoryPath = `${process.cwd()}/${dataObject.directory}`;
       const isExist = fs.existsSync(`${resultDirectoryPath}/data.json`);
 
