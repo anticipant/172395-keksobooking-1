@@ -10,7 +10,23 @@ const validate = (data) => {
   if (errors.length > 0) {
     throw new ValidationError(errors);
   }
-  return data;
+  return {
+    "name": data.name,
+    "title": data.title,
+    "address": data.address,
+    "description": data.description,
+    "price": data.price,
+    "type": data.type,
+    "rooms": data.rooms,
+    "guests": data.guests,
+    "checkin": data.checkin,
+    "checkout": data.checkout,
+    "features": data.features,
+    "location": {
+      "x": data.address.split(`, `)[0],
+      "y": data.address.split(`, `)[1]
+    }
+  };
 };
 
 module.exports = validate;
