@@ -4,6 +4,9 @@ const express = require(`express`);
 const generateEntity = require(`../generate-entity`);
 const multer = require(`multer`);
 
+const ValidationError = require(`../errors/validation-error`);
+const validate = require(`./validate`);
+
 const DefaultParams = {
   SKIP: 0,
   LIMIT: 20,
@@ -63,7 +66,13 @@ offersRouter.get(`/:date`, (request, response) => {
 offersRouter.post(``, jsonParser, upload.none(), (request, response) => {
   const body = request.body;
 
-  response.send(body);
+  response.send(validate(body));
+});
+
+offersRouter.use((err, request, response, _next) => {
+  if (err instanceof ValidationError) {
+    response.status(err.code).json(err.errors);
+  }
 });
 
 module.exports = offersRouter;
