@@ -1,6 +1,7 @@
 'use strict';
 
 const ValidationError = require(`../errors/validation-error`);
+const utilit = require(`../utilit`);
 
 const Price = {
   MIN: 1,
@@ -24,7 +25,7 @@ const CountOfRooms = {
 };
 
 const isInvalidTime = (time) => {
-  return time.match(/^(((0|1)?[0-9])|(2[0-3])):[0-5][0-9]$/gi) ? false : true;
+  return !time.match(/^(((0|1)?[0-9])|(2[0-3])):[0-5][0-9]$/gi);
 
 };
 
@@ -42,7 +43,7 @@ const checkFeatureArray = (array) => {
   return isUniq;
 };
 
-const offerTypePossibleContent = [`flat`, `palac`, `house`, `bungalo`];
+const offerTypePossibleContent = [`flat`, `palace`, `house`, `bungalo`];
 
 const validate = (data) => {
   const errors = [];
@@ -76,7 +77,7 @@ const validate = (data) => {
   if (!offerType) {
     errors.push(`Field type "type" is required!`);
   } else if (offerTypePossibleContent.indexOf(offerType) < 0) {
-    errors.push(`Field "type" must be a "string" and contains one of the value: flat, house, bungalo, palac`);
+    errors.push(`Field "type" must be a "string" and contains one of the value: flat, house, bungalo, palace`);
   }
   if (!offerPrice) {
     errors.push(`Field price "price" is required!`);
@@ -107,8 +108,7 @@ const validate = (data) => {
     errors.push(`Field "rooms", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`);
   }
   if (!offerName) {
-    const indexName = Math.floor(Math.random() * (namesArray.length - 0)) + 0;
-    offerName = namesArray[indexName];
+    offerName = namesArray[utilit.getRandomInt(0, namesArray.length)];
   }
   if (avatar && mimeImageTypes.indexOf(avatar.mimetype) < 0) {
     errors.push(`Incorrect MIME type of avatar`);

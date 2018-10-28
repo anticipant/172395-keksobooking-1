@@ -186,7 +186,7 @@ describe(`Field "Title" validation`, () => {
     const errors = response.body;
     assert.deepEqual(errors, [
       `Field "title", length should be less 140 than and more than 30`,
-      `Field "type" must be a "string" and contains one of the value: flat, house, bungalo, palac`,
+      `Field "type" must be a "string" and contains one of the value: flat, house, bungalo, palace`,
       `Field "price", must be a "number" and more 1 than and less than 1000000`,
       `Field "address" must be a "string" and has length less 100`,
       `Field "checkin" must be a "string" and have format "HH:mm"`,
