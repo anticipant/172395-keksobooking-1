@@ -62,10 +62,15 @@ offersRouter.get(`/:date`, (request, response) => {
     response.send(found);
   }
 });
+const offerUpload = upload.fields([{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}]);
 
-offersRouter.post(``, jsonParser, upload.none(), (request, response) => {
+offersRouter.post(``, jsonParser, offerUpload, (request, response) => {
   const body = request.body;
+  const images = request.files;
 
+  if (Object.keys(images).length !== 0) {
+    body.images = images;
+  }
   response.send(validate(body));
 });
 
