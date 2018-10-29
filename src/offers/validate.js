@@ -28,8 +28,8 @@ const isInvalidTime = (time) => {
   const timeArray = time.split(`:`);
   const hours = parseInt(timeArray[0], 10);
   const minutes = parseInt(timeArray[1], 10);
-  const isHours = hours < 24 && hours >= 0 && timeArray[0].length === 2;
-  const isMinutes = minutes < 60 && minutes >= 0 && timeArray[1].length === 2;
+  const isHours = hours < 24 && hours >= 0;
+  const isMinutes = minutes < 60 && minutes >= 0;
 
   return !(isHours && isMinutes);
 };
