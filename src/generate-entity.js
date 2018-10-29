@@ -1,6 +1,6 @@
 'use strict';
 
-const utilit = require(`./utilit`);
+const util = require(`./util`);
 
 const OfferPrice = {
   MIN: 1000,
@@ -46,30 +46,30 @@ const offerFeatures = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `c
 const offerPhotos = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
 
 const generateEntity = () => {
-  const locationX = utilit.getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X);
-  const locationY = utilit.getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y);
+  const locationX = util.getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X);
+  const locationY = util.getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y);
   return {
     'author': {
-      'avatar': `https://robohash.org/boom-${utilit.getRandomInt(0, 100)}`,
+      'avatar': `https://robohash.org/boom-${util.getRandomInt(0, 100)}`,
     },
     'offer': {
-      'title': offerTitles[utilit.getRandomInt(0, offerTitles.length)],
+      'title': offerTitles[util.getRandomInt(0, offerTitles.length)],
       'address': `${locationX}, ${locationY}`,
-      'price': utilit.getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
-      'type': offerType[utilit.getRandomInt(0, offerType.length)],
-      'rooms': utilit.getRandomInt(OfferRooms.MIN, OfferRooms.MAX),
-      'guests': utilit.getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
-      'checkin': offerCheckInOut[utilit.getRandomInt(0, offerCheckInOut.length)],
-      'checkout': offerCheckInOut[utilit.getRandomInt(0, offerCheckInOut.length)],
-      'features': utilit.getRandomArray(offerFeatures),
+      'price': util.getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
+      'type': offerType[util.getRandomInt(0, offerType.length)],
+      'rooms': util.getRandomInt(OfferRooms.MIN, OfferRooms.MAX),
+      'guests': util.getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
+      'checkin': offerCheckInOut[util.getRandomInt(0, offerCheckInOut.length)],
+      'checkout': offerCheckInOut[util.getRandomInt(0, offerCheckInOut.length)],
+      'features': util.getRandomArray(offerFeatures),
       'description': ``,
-      'photos': utilit.shuffleArray(offerPhotos),
+      'photos': util.shuffleArray(offerPhotos),
     },
     'location': {
       'x': locationX,
       'y': locationY,
     },
-    'date': dates[utilit.getRandomInt(0, dates.length)],
+    'date': dates[util.getRandomInt(0, dates.length)],
   };
 };
 

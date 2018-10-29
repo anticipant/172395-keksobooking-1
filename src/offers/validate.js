@@ -1,7 +1,7 @@
 'use strict';
 
 const ValidationError = require(`../errors/validation-error`);
-const utilit = require(`../utilit`);
+const util = require(`../util`);
 
 const Price = {
   MIN: 1,
@@ -25,22 +25,25 @@ const CountOfRooms = {
 };
 
 const isInvalidTime = (time) => {
-  return !time.match(/^(((0|1)?[0-9])|(2[0-3])):[0-5][0-9]$/gi);
+  const timeArray = time.split(`:`);
+  const isHours = parseInt(timeArray[0], 10) < 24;
+  const isMinutes = parseInt(timeArray[1], 10) < 60;
 
+  return !(isHours && isMinutes);
 };
 
 const checkFeatureArray = (array) => {
   let offerFeatures = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
-  let isUniq = true;
+  let isUnique = true;
   for (let i = 0; i < array.length; i++) {
     if (offerFeatures.indexOf(array[i]) < 0) {
-      isUniq = false;
+      isUnique = false;
     } else {
       offerFeatures[i] = null;
     }
   }
 
-  return isUniq;
+  return isUnique;
 };
 
 const offerTypePossibleContent = [`flat`, `palace`, `house`, `bungalo`];
@@ -108,7 +111,7 @@ const validate = (data) => {
     errors.push(`Field "rooms", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`);
   }
   if (!offerName) {
-    offerName = namesArray[utilit.getRandomInt(0, namesArray.length)];
+    offerName = namesArray[util.getRandomInt(0, namesArray.length)];
   }
   if (avatar && mimeImageTypes.indexOf(avatar.mimetype) < 0) {
     errors.push(`Incorrect MIME type of avatar`);
