@@ -2,7 +2,9 @@
 
 const colors = require(`colors`);
 const express = require(`express`);
-const offersRouter = require(`./offers/router`);
+const offerStore = require(`./offers/store`);
+const imagesStore = require(`./images/store`);
+const offersRouter = require(`./offers/router`)(offerStore, imagesStore);
 
 const app = express();
 

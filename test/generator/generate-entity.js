@@ -1,6 +1,6 @@
 'use strict';
 
-const util = require(`./util`);
+const util = require(`../../src/util`);
 
 const OfferPrice = {
   MIN: 1000,

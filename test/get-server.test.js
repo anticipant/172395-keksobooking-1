@@ -1,9 +1,39 @@
 'use strict';
 
 const assert = require(`assert`);
+const express = require(`express`);
 const request = require(`supertest`);
 
-const app = require(`../src/server`).app;
+
+const offersStoreMock = require(`./mock/offers-store-mock`);
+const imagesStoreMock = require(`./mock/images-store-mock`);
+const offersRoute = require(`../src/offers/router`)(offersStoreMock, imagesStoreMock);
+
+const app = express();
+
+app.use(`/api/offers`, offersRoute);
+
+
+const BAD_REQUEST_HANDLER = (req, res) => {
+  res.status(400).send(`Bad Request`);
+};
+const NOT_FOUND_HANDLER = (req, res) => {
+  res.status(404).send(`Page was not found`);
+};
+const ERROR_HANDLER = (err, req, res) => {
+  if (err) {
+    console.error(err);
+    res.status(err.code || 500).send(err.message);
+  }
+};
+
+
+app.use(NOT_FOUND_HANDLER);
+
+app.use(BAD_REQUEST_HANDLER);
+
+app.use(ERROR_HANDLER);
+
 
 describe(`GET /api/offers`, () => {
   it(`get all offers`, async () => {
@@ -15,7 +45,7 @@ describe(`GET /api/offers`, () => {
     expect(`Content-Type`, `application/json; charset=utf-8`);
 
     const offers = response.body;
-    assert.equal(offers.length, 20);
+    assert.equal(offers.data.length, 20);
   });
 
   it(`get offers with "limit"`, async () => {
@@ -27,7 +57,7 @@ describe(`GET /api/offers`, () => {
     expect(`Content-Type`, `application/json; charset=utf-8`);
 
     const offers = response.body;
-    assert.equal(offers.length, 1);
+    assert.equal(offers.data.length, 1);
   });
 
   it(`get offers with "skip=11"`, async () => {
@@ -39,7 +69,7 @@ describe(`GET /api/offers`, () => {
     expect(`Content-Type`, `application/json; charset=utf-8`);
 
     const offers = response.body;
-    assert.equal(offers.length, 9);
+    assert.equal(offers.data.length, 9);
   });
 
   it(`get offers with "skip=15" and "limit=2"`, async () => {
@@ -51,7 +81,7 @@ describe(`GET /api/offers`, () => {
     expect(`Content-Type`, `application/json; charset=utf-8`);
 
     const offers = response.body;
-    assert.equal(offers.length, 2);
+    assert.equal(offers.data.length, 2);
   });
   it(`get offers with "skip=15" and "limit=10"`, async () => {
 
@@ -62,7 +92,7 @@ describe(`GET /api/offers`, () => {
     expect(`Content-Type`, `application/json; charset=utf-8`);
 
     const offers = response.body;
-    assert.equal(offers.length, 5);
+    assert.equal(offers.data.length, 5);
   });
 
   it(`get data with invalid params`, async () => {
