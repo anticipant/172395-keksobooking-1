@@ -110,7 +110,7 @@ const validate = (data) => {
     errors.push(`Field "rooms", must be a "number" and more 0 than and less than 1000`);
   }
   if (!checkFeatureArray(offerFeatures)) {
-    errors.push(`Field "rooms", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`);
+    errors.push(`Field "features", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`);
   }
   if (!offerName) {
     offerName = namesArray[util.getRandomInt(0, namesArray.length)];
