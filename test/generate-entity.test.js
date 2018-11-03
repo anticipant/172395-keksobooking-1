@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require(`assert`);
-const generateEntity = require(`../src/generate-entity`);
+const generateEntity = require(`./generator/generate-entity`);
 const data = generateEntity();
 
 describe(`Array`, () => {

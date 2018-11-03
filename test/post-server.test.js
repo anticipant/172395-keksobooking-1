@@ -2,7 +2,15 @@
 
 const assert = require(`assert`);
 const request = require(`supertest`);
-const app = require(`../src/server`).app;
+const express = require(`express`);
+
+const offersStoreMock = require(`./mock/offers-store-mock`);
+const imagesStoreMock = require(`./mock/images-store-mock`);
+const offersRoute = require(`../src/offers/router`)(offersStoreMock, imagesStoreMock);
+
+const app = express();
+
+app.use(`/api/offers`, offersRoute);
 
 const namesArray = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
 const offerDateExample = 1541308109198;
