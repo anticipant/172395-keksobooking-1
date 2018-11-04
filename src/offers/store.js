@@ -16,7 +16,7 @@ class OffersStore {
   }
 
   async getOffer(date) {
-    return (await this.collection).findOne({date: `${date}`});
+    return (await this.collection).findOne({date});
   }
 
   async getAllOffers() {

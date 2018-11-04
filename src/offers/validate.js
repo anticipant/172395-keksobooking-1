@@ -60,7 +60,7 @@ const validate = (data) => {
     avatar = data.images[`avatar`] && data.images[`avatar`][0];
     preview = data.images[`preview`] && data.images[`preview`][0];
   }
-  const offerDate = data.date;
+  const offerDate = +data.date;
   const offerTitle = data.title;
   const offerAddress = data.address;
   const offerPrice = +data.price;
