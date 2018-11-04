@@ -58,7 +58,7 @@ module.exports = {
     if (port > 0) {
       runServer(port);
     } else {
-      logger.error(colors.red(`Неверно указан номер порта`));
+      console.error(colors.red(`Неверно указан номер порта`));
       process.exit(1);
     }
   },

@@ -2,13 +2,12 @@
 
 const colors = require(`colors`);
 const packageInfo = require(`../package.json`);
-const logger = require(`./logger`);
 
 module.exports = {
   name: `version`,
   description: `печатает версию приложения`,
   execute() {
-    logger.info(`v${packageInfo.version.split(`.`).map((it, index) => {
+    console.log(`v${packageInfo.version.split(`.`).map((it, index) => {
       let number = it;
       switch (index) {
         case 0:
