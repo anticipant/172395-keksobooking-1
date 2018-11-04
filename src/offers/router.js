@@ -6,6 +6,7 @@ const MongoError = require(`mongodb`).MongoError;
 const ValidationError = require(`../errors/validation-error`);
 const validate = require(`./validate`);
 const toStream = require(`buffer-to-stream`);
+const logger = require(`../logger`);
 
 const DefaultParams = {
   SKIP: 0,
@@ -105,10 +106,10 @@ offersRouter.get(`/:date/avatar`, asyncMiddleware(async (request, response) => {
   response.header(`Content-Type`, `image/jpg`);
   response.header(`Content-Length`, result.info.length);
 
-  response.on(`error`, (e) => console.error(e));
+  response.on(`error`, (e) => logger.error(e));
   response.on(`end`, () => response.end());
   const stream = result.stream;
-  stream.on(`error`, (e) => console.error(e));
+  stream.on(`error`, (e) => logger.error(e));
   stream.on(`end`, () => response.end());
   stream.pipe(response);
 }));

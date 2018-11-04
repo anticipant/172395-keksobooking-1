@@ -3,6 +3,7 @@
 const assert = require(`assert`);
 const express = require(`express`);
 const request = require(`supertest`);
+const logger = require(`../src/logger`);
 
 
 const offersStoreMock = require(`./mock/offers-store-mock`);
@@ -22,7 +23,7 @@ const NOT_FOUND_HANDLER = (req, res) => {
 };
 const ERROR_HANDLER = (err, req, res) => {
   if (err) {
-    console.error(err);
+    logger.error(err);
     res.status(err.code || 500).send(err.message);
   }
 };

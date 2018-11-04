@@ -5,6 +5,12 @@ const express = require(`express`);
 const offerStore = require(`./offers/store`);
 const imagesStore = require(`./images/store`);
 const offersRouter = require(`./offers/router`)(offerStore, imagesStore);
+const logger = require(`./logger`);
+
+const {
+  SERVER_PORT = 3000,
+  SERVER_HOST = `localhost`
+} = process.env;
 
 const app = express();
 
@@ -18,7 +24,7 @@ const NOT_FOUND_HANDLER = (request, response) => {
 };
 const ERROR_HANDLER = (err, request, response) => {
   if (err) {
-    console.error(err);
+    logger.error(err);
     response.status(err.code || 500).send(err.message);
   }
 };
@@ -31,17 +37,15 @@ app.use(BAD_REQUEST_HANDLER);
 
 app.use(ERROR_HANDLER);
 
-const PORT = 3000;
-
 const runServer = (port) => {
   port = parseInt(port, 10);
 
   app.listen(port, (err) => {
     if (err) {
-      console.error(err);
+      logger.error(err);
       return;
     }
-    console.log(`example app available on http://localhost:${port}/`);
+    logger.info(`example app available on http://${SERVER_HOST}:${port}/`);
   });
 };
 
@@ -49,12 +53,12 @@ module.exports = {
   name: `server`,
   description: `принимает на вход номер порта и поднимает сервер`,
   execute(parameters = []) {
-    let [port = PORT] = parameters;
+    let [port = SERVER_PORT] = parameters;
 
     if (port > 0) {
       runServer(port);
     } else {
-      console.error(colors.red(`Неверно указан номер порта`));
+      logger.error(colors.red(`Неверно указан номер порта`));
       process.exit(1);
     }
   },

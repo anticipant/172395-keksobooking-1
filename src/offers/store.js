@@ -1,6 +1,7 @@
 'use strict';
 
 const db = require(`../database/db`);
+const logger = require(`../logger`);
 
 const setupCollection = async () => {
   const dBase = await db;
@@ -28,4 +29,4 @@ class OffersStore {
 }
 
 module.exports = new OffersStore(setupCollection().
-catch((err) => console.error(`Failed to set up "offers" - collection`, err)));
+catch((err) => logger.error(`Failed to set up "offers" - collection`, err)));

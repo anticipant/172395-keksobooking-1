@@ -2,9 +2,16 @@
 
 const {MongoClient} = require(`mongodb`);
 
-const url = `mongodb://localhost:27017`;
+const logger = require(`../logger`);
 
-module.exports = MongoClient.connect(url, {useNewUrlParser: true}).then((client) => client.db(`keks-booking`)).catch((err) => {
-  console.error(`Failed to connect to MongoDB`, err);
+const {
+  DB_HOST = `localhost:27017`,
+  DB_PATH = `keks-booking`
+} = process.env;
+
+const url = `mongodb://${DB_HOST}`;
+
+module.exports = MongoClient.connect(url, {useNewUrlParser: true}).then((client) => client.db(DB_PATH)).catch((err) => {
+  logger.error(`Failed to connect to MongoDB`, err);
   process.exit(1);
 });

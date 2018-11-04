@@ -2,13 +2,14 @@
 
 const colors = require(`colors`);
 const fs = require(`fs`);
+const logger = require(`./logger`);
 
 const writeFile = (path, data) => {
   fs.writeFile(`${path}/data.json`, data, (err) => {
     if (err) {
       throw err;
     }
-    console.log(colors.green(`Файл сохранен!`));
+    logger.info(colors.green(`Файл сохранен!`));
   });
 };
 

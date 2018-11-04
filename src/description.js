@@ -2,12 +2,13 @@
 
 const colors = require(`colors`);
 const packageInfo = require(`../package.json`);
+const logger = require(`./logger`);
 
 module.exports = {
   name: `description`,
   description: `печатает описание приложения`,
   execute() {
-    console.log(colors.blue(packageInfo.description));
+    logger.info(colors.blue(packageInfo.description));
     process.exit(0);
   }
 };

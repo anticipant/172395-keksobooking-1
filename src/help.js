@@ -1,6 +1,8 @@
 'use strict';
 
 const colors = require(`colors`);
+const logger = require(`./logger`);
+
 const getAvailableCommands = () => {
   const cliInterface = require(`./cli-commands`);
   let commands = [];
@@ -24,7 +26,7 @@ module.exports = {
   name: `help`,
   description: `выводит возможные команды`,
   execute() {
-    console.log(getAvailableCommands());
+    logger.info(getAvailableCommands());
     process.exit(0);
   }
 };
