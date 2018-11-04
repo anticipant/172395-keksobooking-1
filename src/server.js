@@ -4,7 +4,7 @@ const colors = require(`colors`);
 const express = require(`express`);
 const offerStore = require(`./offers/store`);
 const imagesStore = require(`./images/store`);
-const offersRouter = require(`./offers/router`)(offerStore, imagesStore);
+const offersRouter = require(`./offers/route/index`)(offerStore, imagesStore);
 const logger = require(`./logger`);
 
 const {

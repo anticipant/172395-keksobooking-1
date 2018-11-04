@@ -8,7 +8,7 @@ const logger = require(`../src/logger`);
 
 const offersStoreMock = require(`./mock/offers-store-mock`);
 const imagesStoreMock = require(`./mock/images-store-mock`);
-const offersRoute = require(`../src/offers/router`)(offersStoreMock, imagesStoreMock);
+const offersRoute = require(`../src/offers/route/index`)(offersStoreMock, imagesStoreMock);
 
 const app = express();
 
