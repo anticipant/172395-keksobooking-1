@@ -16,26 +16,7 @@ const app = express();
 
 app.use(express.static(`static`));
 
-const BAD_REQUEST_HANDLER = (request, response) => {
-  response.status(400).send(`Bad Request`);
-};
-const NOT_FOUND_HANDLER = (request, response) => {
-  response.status(404).send(`Page was not found`);
-};
-const ERROR_HANDLER = (err, request, response) => {
-  if (err) {
-    logger.error(err);
-    response.status(err.code || 500).send(err.message);
-  }
-};
-
 app.use(`/api/offers`, offersRouter);
-
-app.use(NOT_FOUND_HANDLER);
-
-app.use(BAD_REQUEST_HANDLER);
-
-app.use(ERROR_HANDLER);
 
 const runServer = (port) => {
   port = parseInt(port, 10);
