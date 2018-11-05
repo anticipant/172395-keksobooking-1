@@ -15,8 +15,9 @@ module.exports = (offersRouter) => {
 
       if (!found) {
         response.status(404).send(`Объявления не найдено!`);
+      } else {
+        response.send(found);
       }
-      response.send(found);
     }
   }));
 

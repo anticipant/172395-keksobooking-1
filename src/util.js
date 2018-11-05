@@ -6,19 +6,19 @@ const shuffleArray = (array) => {
   let shuffledArray = [];
 
   for (let i = 0; i < arrayLength; i++) {
-    let position = getRandomInt(0, initialArray.length);
+    let position = getRandomInteger(0, initialArray.length);
     shuffledArray.push(initialArray.splice(position, 1)[0]);
   }
 
   return shuffledArray;
 };
 
-const getRandomInt = (min, max) => {
+const getRandomInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
 const getRandomArray = (array) => {
-  const randomNumber = getRandomInt(1, array.length);
+  const randomNumber = getRandomInteger(1, array.length);
   const shuffledArray = shuffleArray(array);
 
   return shuffledArray.slice(0, randomNumber);
@@ -26,6 +26,6 @@ const getRandomArray = (array) => {
 
 module.exports = {
   shuffleArray,
-  getRandomInt,
+  getRandomInteger,
   getRandomArray,
 };

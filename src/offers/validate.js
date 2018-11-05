@@ -113,7 +113,7 @@ const validate = (data) => {
     errors.push(`Field "features", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`);
   }
   if (!offerName) {
-    offerName = namesArray[util.getRandomInt(0, namesArray.length)];
+    offerName = namesArray[util.getRandomInteger(0, namesArray.length)];
   }
   if (avatar && mimeImageTypes.indexOf(avatar.mimetype) < 0) {
     errors.push(`Incorrect MIME type of avatar`);

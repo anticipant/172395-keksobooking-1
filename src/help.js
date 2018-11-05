@@ -2,6 +2,8 @@
 
 const colors = require(`colors`);
 
+const DEFAULT_INDENT = 15;
+
 const getAvailableCommands = () => {
   const cliInterface = require(`./cli-commands`);
   let commands = [];
@@ -17,10 +19,11 @@ const getAvailableCommands = () => {
   }
   return `Доступные команды:
   ${commands.map((it) => {
-    return `${colors.grey(it.name)}${` `.repeat(15 - it.name.length)} — ${colors.green(it.description)}`;
+    return `${colors.grey(it.name)}${` `.repeat(DEFAULT_INDENT - it.name.length)} — ${colors.green(it.description)}`;
   }).join(`
   `)}`;
 };
+
 module.exports = {
   name: `help`,
   description: `выводит возможные команды`,
