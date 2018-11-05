@@ -8,12 +8,6 @@ const Price = {
   MAX: 1000000,
 };
 
-const ADDRESS_MIN_LENGTH = 100;
-
-const mimeImageTypes = [`image/jpg`, `image/gif`, `image/png`];
-
-const namesArray = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
-
 const TitleLength = {
   MIN: 30,
   MAX: 140,
@@ -24,14 +18,20 @@ const CountOfRooms = {
   MAX: 1000,
 };
 
-const isInvalidTime = (time) => {
+const ADDRESS_MIN_LENGTH = 100;
+
+const mimeImageTypes = [`image/jpg`, `image/gif`, `image/png`];
+
+const namesArray = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
+
+const validateTime = (time) => {
   const timeArray = time.split(`:`);
   const hours = parseInt(timeArray[0], 10);
   const minutes = parseInt(timeArray[1], 10);
   const isHours = hours < 24 && hours >= 0;
   const isMinutes = minutes < 60 && minutes >= 0;
 
-  return !(isHours && isMinutes);
+  return isHours && isMinutes;
 };
 
 const checkFeatureArray = (array) => {
@@ -96,12 +96,12 @@ const validate = (data) => {
   }
   if (!offerCheckin) {
     errors.push(`Field checkin "checkin" is required!`);
-  } else if (typeof offerCheckin !== `string` || isInvalidTime(offerCheckin)) {
+  } else if (typeof offerCheckin !== `string` || !validateTime(offerCheckin)) {
     errors.push(`Field "checkin" must be a "string" and have format "HH:mm"`);
   }
   if (!offerCheckout) {
     errors.push(`Field checkout "checkout" is required!`);
-  } else if (typeof offerCheckout !== `string` || isInvalidTime(offerCheckout)) {
+  } else if (typeof offerCheckout !== `string` || !validateTime(offerCheckout)) {
     errors.push(`Field "checkout" must be a "string" and have format "HH:mm"`);
   }
   if (!offerRooms) {

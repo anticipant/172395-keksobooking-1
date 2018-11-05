@@ -1,11 +1,23 @@
 'use strict';
 
+const version = require(`./version`);
+const description = require(`./description`);
+const author = require(`./author`);
+const license = require(`./license`);
+const server = require(`./server`);
 const colors = require(`colors`);
 
 const DEFAULT_INDENT = 15;
 
 const getAvailableCommands = () => {
-  const cliInterface = require(`./cli-commands`);
+
+  const cliInterface = {
+    version,
+    description,
+    author,
+    license,
+    server,
+  };
   let commands = [];
 
   for (let commandKey in cliInterface) {
@@ -18,6 +30,7 @@ const getAvailableCommands = () => {
     }
   }
   return `Доступные команды:
+  ${colors.grey(`help`)}${` `.repeat(DEFAULT_INDENT - `help`.length)} — ${colors.green(`выводит возможные команды`)}
   ${commands.map((it) => {
     return `${colors.grey(it.name)}${` `.repeat(DEFAULT_INDENT - it.name.length)} — ${colors.green(it.description)}`;
   }).join(`
