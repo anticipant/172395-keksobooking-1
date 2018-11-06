@@ -3,9 +3,11 @@
 const ValidationError = require(`../errors/validation-error`);
 const util = require(`../util`);
 
+const SEVEN_DAYS = 7 * 24 * 60 * 1000;
+
 const Price = {
   MIN: 1,
-  MAX: 1000000,
+  MAX: 100000,
 };
 
 const TitleLength = {
@@ -20,7 +22,7 @@ const CountOfRooms = {
 
 const ADDRESS_MIN_LENGTH = 100;
 
-const mimeImageTypes = [`image/jpg`, `image/gif`, `image/png`];
+const mimeImageTypes = [`image/jpg`, `image/jpeg`, `image/gif`, `image/png`];
 
 const namesArray = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
 
@@ -48,6 +50,12 @@ const checkFeatureArray = (array) => {
   return isUnique;
 };
 
+const getTimeStamp = () => {
+  const currentTime = Date.now();
+  const weekAgo = currentTime - SEVEN_DAYS;
+  return Math.floor(Math.random() * (currentTime - weekAgo)) + weekAgo;
+};
+
 const offerTypePossibleContent = [`flat`, `palace`, `house`, `bungalo`];
 
 const validate = (data) => {
@@ -60,7 +68,7 @@ const validate = (data) => {
     avatar = data.images[`avatar`] && data.images[`avatar`][0];
     preview = data.images[`preview`] && data.images[`preview`][0];
   }
-  const offerDate = +data.date;
+  const offerDate = getTimeStamp();
   const offerTitle = data.title;
   const offerAddress = data.address;
   const offerPrice = +data.price;
@@ -68,7 +76,7 @@ const validate = (data) => {
   const offerRooms = +data.rooms;
   const offerCheckin = data.checkin;
   const offerCheckout = data.checkout;
-  const offerFeatures = data.features;
+  const offerFeatures = data.features || [];
 
 
   if (!offerDate) {
