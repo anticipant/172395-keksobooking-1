@@ -6,7 +6,7 @@ const express = require(`express`);
 
 const offersStoreMock = require(`./mock/offers-store-mock`);
 const imagesStoreMock = require(`./mock/images-store-mock`);
-const offersRoute = require(`../src/offers/router`)(offersStoreMock, imagesStoreMock);
+const offersRoute = require(`../src/offers/route/index`)(offersStoreMock, imagesStoreMock);
 
 const app = express();
 
@@ -200,7 +200,7 @@ describe(`Field "Title" validation`, () => {
       `Field "checkin" must be a "string" and have format "HH:mm"`,
       `Field "checkout" must be a "string" and have format "HH:mm"`,
       `Field "rooms", must be a "number" and more 0 than and less than 1000`,
-      `Field "rooms", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`
+      `Field "features", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`
     ]);
   });
 

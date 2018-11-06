@@ -7,32 +7,11 @@ const request = require(`supertest`);
 
 const offersStoreMock = require(`./mock/offers-store-mock`);
 const imagesStoreMock = require(`./mock/images-store-mock`);
-const offersRoute = require(`../src/offers/router`)(offersStoreMock, imagesStoreMock);
+const offersRoute = require(`../src/offers/route/index`)(offersStoreMock, imagesStoreMock);
 
 const app = express();
 
 app.use(`/api/offers`, offersRoute);
-
-
-const BAD_REQUEST_HANDLER = (req, res) => {
-  res.status(400).send(`Bad Request`);
-};
-const NOT_FOUND_HANDLER = (req, res) => {
-  res.status(404).send(`Page was not found`);
-};
-const ERROR_HANDLER = (err, req, res) => {
-  if (err) {
-    console.error(err);
-    res.status(err.code || 500).send(err.message);
-  }
-};
-
-
-app.use(NOT_FOUND_HANDLER);
-
-app.use(BAD_REQUEST_HANDLER);
-
-app.use(ERROR_HANDLER);
 
 
 describe(`GET /api/offers`, () => {
@@ -102,16 +81,6 @@ describe(`GET /api/offers`, () => {
     set(`Accept`, `application/json`).
     expect(400).
     expect(`В запросе не указана дата`).
-    expect(`Content-Type`, /html/);
-  });
-
-  it(`get data from unknown resource`, async () => {
-
-    return await request(app).
-    get(`/api/blablabla`).
-    set(`Accept`, `application/json`).
-    expect(404).
-    expect(`Page was not found`).
     expect(`Content-Type`, /html/);
   });
 

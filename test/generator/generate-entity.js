@@ -46,21 +46,21 @@ const offerFeatures = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `c
 const offerPhotos = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
 
 const generateEntity = () => {
-  const locationX = util.getRandomInt(Coordinate.MIN_X, Coordinate.MAX_X);
-  const locationY = util.getRandomInt(Coordinate.MIN_Y, Coordinate.MAX_Y);
+  const locationX = util.getRandomInteger(Coordinate.MIN_X, Coordinate.MAX_X);
+  const locationY = util.getRandomInteger(Coordinate.MIN_Y, Coordinate.MAX_Y);
   return {
     'author': {
-      'avatar': `https://robohash.org/boom-${util.getRandomInt(0, 100)}`,
+      'avatar': `https://robohash.org/boom-${util.getRandomInteger(0, 100)}`,
     },
     'offer': {
-      'title': offerTitles[util.getRandomInt(0, offerTitles.length)],
+      'title': offerTitles[util.getRandomInteger(0, offerTitles.length)],
       'address': `${locationX}, ${locationY}`,
-      'price': util.getRandomInt(OfferPrice.MIN, OfferPrice.MAX),
-      'type': offerType[util.getRandomInt(0, offerType.length)],
-      'rooms': util.getRandomInt(OfferRooms.MIN, OfferRooms.MAX),
-      'guests': util.getRandomInt(OfferGuests.MIN, OfferGuests.MAX),
-      'checkin': offerCheckInOut[util.getRandomInt(0, offerCheckInOut.length)],
-      'checkout': offerCheckInOut[util.getRandomInt(0, offerCheckInOut.length)],
+      'price': util.getRandomInteger(OfferPrice.MIN, OfferPrice.MAX),
+      'type': offerType[util.getRandomInteger(0, offerType.length)],
+      'rooms': util.getRandomInteger(OfferRooms.MIN, OfferRooms.MAX),
+      'guests': util.getRandomInteger(OfferGuests.MIN, OfferGuests.MAX),
+      'checkin': offerCheckInOut[util.getRandomInteger(0, offerCheckInOut.length)],
+      'checkout': offerCheckInOut[util.getRandomInteger(0, offerCheckInOut.length)],
       'features': util.getRandomArray(offerFeatures),
       'description': ``,
       'photos': util.shuffleArray(offerPhotos),
@@ -69,7 +69,7 @@ const generateEntity = () => {
       'x': locationX,
       'y': locationY,
     },
-    'date': dates[util.getRandomInt(0, dates.length)],
+    'date': dates[util.getRandomInteger(0, dates.length)],
   };
 };
 
