@@ -27,6 +27,7 @@ const fillDataBase = async () => {
     process.exit(0);
   } catch (err) {
     logger.error(`При заполнении базы данных произошла ошибка`, err);
+    process.exit(1);
   }
 
 };
