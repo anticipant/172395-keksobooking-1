@@ -5,9 +5,7 @@ const logger = require(`../logger`);
 
 const setupCollection = async () => {
   const dBase = await db;
-  const collection = dBase.collection(`offers`);
-  collection.createIndex({date: -1}, {unique: true});
-  return collection;
+  return dBase.collection(`offers`);
 };
 
 class OffersStore {
@@ -17,6 +15,14 @@ class OffersStore {
 
   async getOffer(date) {
     return (await this.collection).findOne({date});
+  }
+
+  async removeOffers() {
+    return (await this.collection).deleteMany({});
+  }
+
+  async addOffers(offersData) {
+    return (await this.collection).insertMany(offersData);
   }
 
   async getAllOffers() {
