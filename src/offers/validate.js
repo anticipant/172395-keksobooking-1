@@ -68,7 +68,7 @@ const validate = (data) => {
     avatar = data.images[`avatar`] && data.images[`avatar`][0];
     preview = data.images[`preview`] && data.images[`preview`][0];
   }
-  const offerDate = getTimeStamp();
+  const offerDate = data.date || getTimeStamp();
   const offerTitle = data.title;
   const offerAddress = data.address;
   const offerPrice = +data.price;
@@ -79,9 +79,6 @@ const validate = (data) => {
   const offerFeatures = data.features || [];
 
 
-  if (!offerDate) {
-    errors.push(`Field date "date" is required!`);
-  }
   if (!offerTitle) {
     errors.push(`Field title "title" is required!`);
   } else if (typeof offerTitle !== `string` || offerTitle.length < TitleLength.MIN || offerTitle.length > TitleLength.MAX) {
