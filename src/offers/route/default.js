@@ -40,7 +40,7 @@ module.exports = (offersRouter) => {
   }));
 
   const upload = multer({storage: multer.memoryStorage()});
-  const offerUpload = upload.fields([{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}]);
+  const offerUpload = upload.fields([{name: `avatar`, maxCount: 1}, {name: `preview`}]);
 
   offersRouter.post(``, jsonParser, offerUpload, asyncMiddleware(async (request, response) => {
     const body = request.body;
