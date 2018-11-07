@@ -14,11 +14,11 @@ const getOffersData = (generateEntity) => {
 
 const shuffleArray = (array) => {
   const arrayLength = array.length;
-  let initialArray = array.slice();
+  const initialArray = array.slice();
   let shuffledArray = [];
 
   for (let i = 0; i < arrayLength; i++) {
-    let position = getRandomInteger(0, initialArray.length);
+    const position = getRandomInteger(0, initialArray.length);
     shuffledArray.push(initialArray.splice(position, 1)[0]);
   }
 

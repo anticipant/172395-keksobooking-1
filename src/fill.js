@@ -25,6 +25,6 @@ module.exports = {
   name: `fill`,
   description: `заполняет базу данных тестовыми данными`,
   execute() {
-    fillDataBase();
+    fillDataBase().catch((err) => console.error(err.message));
   }
 };
