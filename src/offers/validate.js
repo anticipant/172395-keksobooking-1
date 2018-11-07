@@ -5,6 +5,8 @@ const util = require(`../util`);
 
 const SEVEN_DAYS = 7 * 24 * 60 * 1000;
 
+const ADDRESS_MIN_LENGTH = 100;
+
 const Price = {
   MIN: 1,
   MAX: 100000,
@@ -19,8 +21,6 @@ const CountOfRooms = {
   MIN: 0,
   MAX: 1000,
 };
-
-const ADDRESS_MIN_LENGTH = 100;
 
 const mimeImageTypes = [`image/jpg`, `image/jpeg`, `image/gif`, `image/png`];
 
