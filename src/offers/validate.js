@@ -135,24 +135,25 @@ const validate = (data) => {
 
     "title": offerTitle,
     "address": offerAddress,
-    "description": data.description,
     "price": offerPrice,
     "type": offerType,
     "rooms": offerRooms,
     "guests": data.guests,
     "checkin": offerCheckin,
-    "checkout": data.checkout,
+    "checkout": offerCheckout,
     "features": offerFeatures,
-    "location": {
-      "x": data.address.split(`, `)[0],
-      "y": data.address.split(`, `)[1]
-    }
+    "description": data.description,
+    "photos": [],
+  };
+  resultObject.location = {
+    "x": data.address.split(`, `)[0],
+    "y": data.address.split(`, `)[1]
   };
   resultObject.author = {
     name: offerName,
   };
   if (avatar) {
-    resultObject.author.avatar = `api/offers/${offerDate}/${avatar.originalname}`;
+    resultObject.author.avatar = `/api/offers/${offerDate}/avatar`;
   }
   return resultObject;
 };

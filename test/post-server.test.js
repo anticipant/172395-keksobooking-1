@@ -25,10 +25,12 @@ const offerExample = {
   "checkin": `9:00`,
   "checkout": `7:00`,
   "features": [`elevator`, `conditioner`],
-  "location": {
-    "x": `570`,
-    "y": `472`
-  }
+  "photos": []
+};
+
+const offerLocationExample = {
+  "x": `570`,
+  "y": `472`
 };
 
 describe(`POST /api/offers`, () => {
@@ -70,6 +72,7 @@ describe(`POST /api/offers`, () => {
     assert.deepEqual(offer, {
       date: offerDateExample,
       offer: offerExample,
+      location: offerLocationExample,
       author: {
         name: `Dima`
       }
@@ -104,9 +107,10 @@ describe(`POST /api/offers`, () => {
     assert.deepEqual(offer, {
       date: offerDateExample,
       offer: offerExample,
+      location: offerLocationExample,
       author: {
         name: `Dima`,
-        avatar: `api/offers/${offerDateExample}/keks.png`
+        avatar: `/api/offers/${offerDateExample}/avatar`
       }
     });
   });
