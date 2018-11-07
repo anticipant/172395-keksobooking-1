@@ -3,20 +3,9 @@
 const generateEntity = require(`../test/generator/generate-entity`);
 const offerStore = require(`./offers/store`);
 const logger = require(`./logger`);
+const {getOffersData} = require(`./util`);
 
-const DATA_QUANTITY = 20;
-
-const getOffersDataJSON = () => {
-  const offers = [];
-
-  for (let i = 0; i < DATA_QUANTITY; i++) {
-    offers.push(generateEntity());
-  }
-
-  return offers;
-};
-
-const data = getOffersDataJSON();
+const data = getOffersData(generateEntity);
 
 const fillDataBase = async () => {
 

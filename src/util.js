@@ -1,5 +1,17 @@
 'use strict';
 
+const DATA_QUANTITY = 20;
+
+const getOffersData = (generateEntity) => {
+  const offers = [];
+
+  for (let i = 0; i < DATA_QUANTITY; i++) {
+    offers.push(generateEntity());
+  }
+
+  return offers;
+};
+
 const shuffleArray = (array) => {
   const arrayLength = array.length;
   let initialArray = array.slice();
@@ -28,4 +40,5 @@ module.exports = {
   shuffleArray,
   getRandomInteger,
   getRandomArray,
+  getOffersData,
 };

@@ -3,6 +3,11 @@
 const {createLogger, transports, format} = require(`winston`);
 const {combine, timestamp} = format;
 
+const {
+  LOG_LEVEL = `info`,
+  DEV_LOG_LEVEL = `silly`
+} = process.env;
+
 const levels = {
   error: 0,
   warn: 1,
@@ -18,7 +23,7 @@ const getLogLevel = (level, defaultLevel) => {
   return levels[level] ? level : defaultLevel;
 };
 const logger = createLogger({
-  level: getLogLevel(process.env.LOG_LEVEL, `info`),
+  level: getLogLevel(LOG_LEVEL, `info`),
   format: format.json(),
   transports: [
 
@@ -29,7 +34,7 @@ const logger = createLogger({
 
 if (process.env.NODE_ENV !== `production`) {
   logger.add(new transports.Console({
-    level: getLogLevel(process.env.DEV_LOG_LEVEL, `silly`),
+    level: getLogLevel(DEV_LOG_LEVEL, `silly`),
     format: combine(timestamp(), format.simple())
   }));
 }
