@@ -21,14 +21,16 @@ const offerExample = {
   "price": 30000,
   "type": `flat`,
   "rooms": 1,
-  "guests": 1,
+  "guests": `1`,
   "checkin": `9:00`,
   "checkout": `7:00`,
   "features": [`elevator`, `conditioner`],
-  "location": {
-    "x": 570,
-    "y": 472
-  }
+  "photos": []
+};
+
+const offerLocationExample = {
+  "x": `570`,
+  "y": `472`
 };
 
 describe(`POST /api/offers`, () => {
@@ -70,6 +72,7 @@ describe(`POST /api/offers`, () => {
     assert.deepEqual(offer, {
       date: offerDateExample,
       offer: offerExample,
+      location: offerLocationExample,
       author: {
         name: `Dima`
       }
@@ -104,9 +107,10 @@ describe(`POST /api/offers`, () => {
     assert.deepEqual(offer, {
       date: offerDateExample,
       offer: offerExample,
+      location: offerLocationExample,
       author: {
         name: `Dima`,
-        avatar: `api/offers/${offerDateExample}/keks.png`
+        avatar: `/api/offers/${offerDateExample}/avatar`
       }
     });
   });
@@ -159,7 +163,6 @@ describe(`Field "Title" validation`, () => {
 
     const errors = response.body;
     assert.deepEqual(errors, [
-      `Field date "date" is required!`,
       `Field title "title" is required!`,
       `Field type "type" is required!`,
       `Field price "price" is required!`,

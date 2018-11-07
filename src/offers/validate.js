@@ -3,9 +3,17 @@
 const ValidationError = require(`../errors/validation-error`);
 const util = require(`../util`);
 
+const SEVEN_DAYS = 7 * 24 * 60 * 1000;
+
+const ADDRESS_MIN_LENGTH = 100;
+
+const MIME_IMAGE_TYPES = [`image/jpg`, `image/jpeg`, `image/gif`, `image/png`];
+
+const OFFERS_DEFAULT_NAMES = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
+
 const Price = {
   MIN: 1,
-  MAX: 1000000,
+  MAX: 100000,
 };
 
 const TitleLength = {
@@ -17,12 +25,6 @@ const CountOfRooms = {
   MIN: 0,
   MAX: 1000,
 };
-
-const ADDRESS_MIN_LENGTH = 100;
-
-const mimeImageTypes = [`image/jpg`, `image/gif`, `image/png`];
-
-const namesArray = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
 
 const validateTime = (time) => {
   const timeArray = time.split(`:`);
@@ -48,6 +50,12 @@ const checkFeatureArray = (array) => {
   return isUnique;
 };
 
+const getTimeStamp = () => {
+  const currentTime = Date.now();
+  const weekAgo = currentTime - SEVEN_DAYS;
+  return Math.floor(Math.random() * (currentTime - weekAgo)) + weekAgo;
+};
+
 const offerTypePossibleContent = [`flat`, `palace`, `house`, `bungalo`];
 
 const validate = (data) => {
@@ -60,7 +68,7 @@ const validate = (data) => {
     avatar = data.images[`avatar`] && data.images[`avatar`][0];
     preview = data.images[`preview`] && data.images[`preview`][0];
   }
-  const offerDate = +data.date;
+  const offerDate = data.date || getTimeStamp();
   const offerTitle = data.title;
   const offerAddress = data.address;
   const offerPrice = +data.price;
@@ -68,12 +76,9 @@ const validate = (data) => {
   const offerRooms = +data.rooms;
   const offerCheckin = data.checkin;
   const offerCheckout = data.checkout;
-  const offerFeatures = data.features;
+  const offerFeatures = data.features || [];
 
 
-  if (!offerDate) {
-    errors.push(`Field date "date" is required!`);
-  }
   if (!offerTitle) {
     errors.push(`Field title "title" is required!`);
   } else if (typeof offerTitle !== `string` || offerTitle.length < TitleLength.MIN || offerTitle.length > TitleLength.MAX) {
@@ -113,12 +118,12 @@ const validate = (data) => {
     errors.push(`Field "features", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`);
   }
   if (!offerName) {
-    offerName = namesArray[util.getRandomInteger(0, namesArray.length)];
+    offerName = OFFERS_DEFAULT_NAMES[util.getRandomInteger(0, OFFERS_DEFAULT_NAMES.length)];
   }
-  if (avatar && mimeImageTypes.indexOf(avatar.mimetype) < 0) {
+  if (avatar && MIME_IMAGE_TYPES.indexOf(avatar.mimetype) < 0) {
     errors.push(`Incorrect MIME type of avatar`);
   }
-  if (preview && mimeImageTypes.indexOf(preview.mimetype) < 0) {
+  if (preview && MIME_IMAGE_TYPES.indexOf(preview.mimetype) < 0) {
     errors.push(`Incorrect MIME type of preview`);
   }
 
@@ -130,24 +135,25 @@ const validate = (data) => {
 
     "title": offerTitle,
     "address": offerAddress,
-    "description": data.description,
     "price": offerPrice,
     "type": offerType,
     "rooms": offerRooms,
     "guests": data.guests,
     "checkin": offerCheckin,
-    "checkout": data.checkout,
+    "checkout": offerCheckout,
     "features": offerFeatures,
-    "location": {
-      "x": data.address.split(`, `)[0],
-      "y": data.address.split(`, `)[1]
-    }
+    "description": data.description,
+    "photos": [],
+  };
+  resultObject.location = {
+    "x": data.address.split(`, `)[0],
+    "y": data.address.split(`, `)[1]
   };
   resultObject.author = {
     name: offerName,
   };
   if (avatar) {
-    resultObject.author.avatar = `api/offers/${offerDate}/${avatar.originalname}`;
+    resultObject.author.avatar = `/api/offers/${offerDate}/avatar`;
   }
   return resultObject;
 };

@@ -34,7 +34,7 @@ module.exports = {
   name: `server`,
   description: `принимает на вход номер порта и поднимает сервер`,
   execute(parameters = []) {
-    let [port = SERVER_PORT] = parameters;
+    const [port = SERVER_PORT] = parameters;
 
     if (port > 0) {
       runServer(port);

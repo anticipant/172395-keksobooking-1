@@ -2,16 +2,7 @@
 
 const Cursor = require(`./cursor-mock`);
 const generateEntity = require(`../generator/generate-entity`);
-
-const getOffersData = (quantity = 20) => {
-  const offers = [];
-
-  for (let i = 0; i < quantity; i++) {
-    offers.push(generateEntity());
-  }
-
-  return offers;
-};
+const {getOffersData} = require(`../../src/util`);
 
 class OfferStoreMock {
   constructor(data) {
@@ -37,4 +28,4 @@ class OfferStoreMock {
 
 }
 
-module.exports = new OfferStoreMock(getOffersData());
+module.exports = new OfferStoreMock(getOffersData(generateEntity));

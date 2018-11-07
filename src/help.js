@@ -5,6 +5,7 @@ const description = require(`./description`);
 const author = require(`./author`);
 const license = require(`./license`);
 const server = require(`./server`);
+const fill = require(`./fill`);
 const colors = require(`colors`);
 
 const DEFAULT_INDENT = 15;
@@ -17,6 +18,7 @@ const getAvailableCommands = () => {
     author,
     license,
     server,
+    fill,
   };
   let commands = [];
 
