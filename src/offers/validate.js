@@ -7,6 +7,10 @@ const SEVEN_DAYS = 7 * 24 * 60 * 1000;
 
 const ADDRESS_MIN_LENGTH = 100;
 
+const MIME_IMAGE_TYPES = [`image/jpg`, `image/jpeg`, `image/gif`, `image/png`];
+
+const OFFERS_DEFAULT_NAMES = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
+
 const Price = {
   MIN: 1,
   MAX: 100000,
@@ -21,10 +25,6 @@ const CountOfRooms = {
   MIN: 0,
   MAX: 1000,
 };
-
-const mimeImageTypes = [`image/jpg`, `image/jpeg`, `image/gif`, `image/png`];
-
-const namesArray = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
 
 const validateTime = (time) => {
   const timeArray = time.split(`:`);
@@ -118,12 +118,12 @@ const validate = (data) => {
     errors.push(`Field "features", must contains non-repeating values from the following: dishwasher, elevator, conditioner, parking, washer, wifi`);
   }
   if (!offerName) {
-    offerName = namesArray[util.getRandomInteger(0, namesArray.length)];
+    offerName = OFFERS_DEFAULT_NAMES[util.getRandomInteger(0, OFFERS_DEFAULT_NAMES.length)];
   }
-  if (avatar && mimeImageTypes.indexOf(avatar.mimetype) < 0) {
+  if (avatar && MIME_IMAGE_TYPES.indexOf(avatar.mimetype) < 0) {
     errors.push(`Incorrect MIME type of avatar`);
   }
-  if (preview && mimeImageTypes.indexOf(preview.mimetype) < 0) {
+  if (preview && MIME_IMAGE_TYPES.indexOf(preview.mimetype) < 0) {
     errors.push(`Incorrect MIME type of preview`);
   }
 
